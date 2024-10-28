@@ -199,16 +199,34 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>That’s all we have for this workshop. By now you should have a better understanding of how you can make your code more easily shared and reusable. In this workshow we have covered:</p>
+<p>That’s all we have for this workshop. By now you should have a better understanding of how you can make your code more maintanable, reusable and easy to share. In this workshow we have covered:</p>
 <ul>
-<li>How to make you life easier with string formatting</li>
-<li>How to use dictionaries</li>
-<li>Using the Python standard library to find and use useful functions</li>
-<li>Ways of bundling up your code into reusable units with functions</li>
-<li>Making it possible to share your code with others by moving code into modules</li>
-<li>How to produce custom errors</li>
-<li>How to compactly generate lists with list comprehensions</li>
+<li>Documentation
+<ul>
+<li>What should be documented</li>
+<li>How to make your documentation accessible as HTML</li>
+</ul></li>
+<li>Licensing</li>
+<li>Testing
+<ul>
+<li>How to test your code</li>
+<li>Parametrising your tests</li>
+<li>Providing test data in fixtures</li>
+</ul></li>
 </ul>
+<p>I consider these three topics to be essential for effective software development along with version control through a tool such as Git.</p>
+<p>You don’t need to have tested very single corner of your code and you don’t need to have perfect docstrings for your functions but just having something is better than having nothing. These techniques are not about being <em>perfect</em> but simply about being <em>better</em>.</p>
+<p>Things to read up on or attend courses about next would likely be:</p>
+<ul>
+<li><strong>Version control</strong> using Git
+<ul>
+<li>including collaborative development with a platform like GitHub or GitLab using Pull Requests</li>
+</ul></li>
+<li><strong>Automated testing</strong>, also referred to as <em>continuous integration</em> or <em>continuous testing</em></li>
+<li><strong>Code quality</strong> checks (such as pycodestyle, Pylint and MyPy in Python)</li>
+<li><strong>Packaging</strong> your software for easy distribution (e.g.&nbsp;using PyPI for Python)</li>
+</ul>
+<p>For information on some of these topics, a good source is <a href="https://docs.python-guide.org">The Hitchhiker’s Guide to Python</a>, particularly the section on <a href="https://docs.python-guide.org/#writing-great-python-code">Writing Great Python Code</a>.</p>
 
 
 
@@ -305,7 +323,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/Bristol-Training\.github\.io\/best-practices-software-engineering\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
