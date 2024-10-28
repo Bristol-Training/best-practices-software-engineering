@@ -177,6 +177,12 @@ Finally, we want to make sure that all tests are run even if a test early in the
 
 Luckily, there is tool called *pytest* which can give us all of these things. It will work on our test script almost exactly as written with only one change needed.
 
+
+::: {#keypointsN .callout-tip icon=false title='command not found: pytest'}
+If you don't have `pytest` installed, try calling on the terminal `pip install -U pytest`.
+:::
+
+
 Remove the call to `test_add_arrays()` on the last line of the file:
 
 

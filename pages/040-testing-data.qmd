@@ -75,6 +75,31 @@ def pair_of_lists():
     return [1, 2, 3], [4, 5, 6]
 ```
 
+::: {#keypointsN .callout-tip icon=false title='Decorators'}
+Python decorators are functions that modify or enhance other functions without explicitly changing their source code. They take another function as an argument, add some functionality, and return the modified function. The key aspects are:
+
+1. They are defined using the `@decorator_name` syntax placed above a function definition.
+2. Decorators wrap the original function, allowing you to execute code before and after the wrapped function.
+3. They can modify the input arguments, return value, or behavior of the decorated function.
+4. Multiple decorators can be applied to a single function, creating a chain of modifications.
+
+```python
+def uppercase_decorator(func):
+    def wrapper():
+        result = func()
+        return result.upper()
+    return wrapper
+
+@uppercase_decorator
+def greet():
+    return "hello, world!"
+
+print(greet())  # Output: HELLO, WORLD!
+```
+
+The above `@uppercase_decorator` syntax is equivalent to `greet = uppercase_decorator(greet)`.
+:::
+
 To make the test functions make use of the fixture, we use the name of the fixture (`pair_of_lists`) as a parameter of the test function, similar to how we did with parametrisation:
 
 ```python
