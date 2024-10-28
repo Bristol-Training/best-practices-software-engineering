@@ -371,6 +371,19 @@ AssertionError</code></pre>
 <p>Secondly, we want nice, useful output from our test functions. Something better than the nothing/exception that a plain <code>assert</code> gives us. It would be nice to get a green <code>PASSED</code> for the good tests and a red <code>FAILED</code> for the bad ones alongside the name of the test in question.</p>
 <p>Finally, we want to make sure that all tests are run even if a test early in the process fails.</p>
 <p>Luckily, there is tool called <em>pytest</em> which can give us all of these things. It will work on our test script almost exactly as written with only one change needed.</p>
+<div id="keypointsN" class="callout callout-style-default callout-tip no-icon callout-titled" title="command not found: pytest">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+command not found: pytest
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you don’t have <code>pytest</code> installed, try calling on the terminal <code>pip install -U pytest</code>.</p>
+</div>
+</div>
 <p>Remove the call to <code>test_add_arrays()</code> on the last line of the file:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -556,7 +569,7 @@ Exercise
 </div>
 </div>
 <div id="answerN" class="callout callout-style-default callout-caution no-icon callout-titled" title="Answer">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -565,7 +578,7 @@ Answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
@@ -709,7 +722,7 @@ Exercise
 </div>
 </div>
 <div id="answerN" class="callout callout-style-default callout-caution no-icon callout-titled" title="Answer">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -718,7 +731,7 @@ Answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
