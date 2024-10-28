@@ -99,7 +99,7 @@ def test_encode_spaces_error():
 
 
 ```python
-!COLUMNS=60 pytest -v --doctest-modules morse.py rot13.py test_morse.py test_rot13.py
+COLUMNS=60 pytest -v --doctest-modules morse.py rot13.py test_morse.py test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m
