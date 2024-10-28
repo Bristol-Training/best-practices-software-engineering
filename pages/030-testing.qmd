@@ -435,11 +435,14 @@ The other thing that is part of the interface of a function is any exceptions th
 
 To add explicit error handling to our function we need to do two things:
 1. add in a conditional `raise` statement:
+
    ```python
    if len(x) != len(y):
        raise ValueError("Both arrays must have the same length.")
    ```
+
 2. document in the docstring the fact that the function may raise something:
+
    ```
    Raises:
        ValueError: If the length of the lists ``x`` and ``y`` are different.
