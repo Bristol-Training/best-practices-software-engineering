@@ -365,6 +365,34 @@ def test_add_arrays(a, b, expect):
 
 We then just need a way of passing the data we want to check into this function. Since we're not explicitly calling this function ourselves, we need a way to tell pytest that it should pass in certain arguments. For this, pytest provides a feature called *parametrisation*. We label our function with a *decoration* which allows pytest to run it mutliple times with different data.
 
+
+::: {#keypointsN .callout-tip icon=false title='Decorators'}
+Python decorators are functions that modify or enhance other functions without explicitly changing their source code. They take another function as an argument, add some functionality, and return the modified function. The key aspects are:
+
+1. They are defined using the `@decorator_name` syntax placed above a function definition.
+2. Decorators wrap the original function, allowing you to execute code before and after the wrapped function.
+3. They can modify the input arguments, return value, or behavior of the decorated function.
+4. Multiple decorators can be applied to a single function, creating a chain of modifications.
+
+```python
+def uppercase_decorator(func):
+    def wrapper():
+        result = func()
+        return result.upper()
+    return wrapper
+
+@uppercase_decorator
+def greet():
+    return "hello, world!"
+
+print(greet())  # Output: HELLO, WORLD!
+```
+
+The above `@uppercase_decorator` syntax is equivalent to `greet = uppercase_decorator(greet)`.
+:::
+
+
+
 To use this feature we must import the `pytest` module and use the `pytest.mark.parametrize` decorator like the following:
 
 
