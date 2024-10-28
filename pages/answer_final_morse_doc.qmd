@@ -1,0 +1,75 @@
+```python
+
+# A lookup dictionary which, given a letter will return the morse code equivalent
+_letter_to_morse = {'a':'.-', 'b':'-...', 'c':'-.-.', 'd':'-..', 'e':'.', 'f':'..-.', 
+                   'g':'--.', 'h':'....', 'i':'..', 'j':'.---', 'k':'-.-', 'l':'.-..', 'm':'--', 
+                   'n':'-.', 'o':'---', 'p':'.--.', 'q':'--.-', 'r':'.-.', 's':'...', 't':'-',
+                   'u':'..-', 'v':'...-', 'w':'.--', 'x':'-..-', 'y':'-.--', 'z':'--..',
+                   '0':'-----', '1':'.----', '2':'..---', '3':'...--', '4':'....-',
+                   '5':'.....', '6':'-....', '7':'--...', '8':'---..', '9':'----.',
+                   ' ':'/'}
+
+# This will create a dictionary that can go from the morse back to the letter
+_morse_to_letter = {}
+for letter in _letter_to_morse:
+    morse = _letter_to_morse[letter]
+    _morse_to_letter[morse] = letter
+
+
+def encode(message):
+    """
+    Encode a message from English to Morse Code
+    
+    Args:
+        message (str): the English message to encode
+    
+    Returns:
+        str: The encoded message
+    
+    Examples:
+        >>> encode("Help us")
+        ".... . .-.. .--. / ..- ..."
+    """
+    morse = []
+
+    for letter in message:
+        letter = letter.lower()
+        morse.append(_letter_to_morse[letter])
+
+    # We need to join together Morse code letters with spaces
+    morse_message = " ".join(morse)
+    
+    return morse_message
+
+
+def decode(message):
+    """
+    Decode a message from Morse Code to English
+    
+    Args:
+        message (str): the Morse Code message to decode
+    
+    Returns:
+        str: The decoded English message
+    
+    Examples:
+        >>> encode(".... . .-.. .--. / ..- ...")
+        "help us"
+    """
+    english = []
+
+    # Now we cannot read by letter. We know that morse letters are
+    # separated by a space, so we split the morse string by spaces
+    morse_letters = message.split(" ")
+
+    for letter in morse_letters:
+        english.append(_morse_to_letter[letter])
+
+    # Rejoin, but now we don't need to add any spaces
+    english_message = "".join(english)
+    
+    return english_message
+```
+
+    Writing morse.py
+

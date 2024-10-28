@@ -1,0 +1,266 @@
+```python
+
+# A lookup dictionary which, given a letter will return the morse code equivalent
+_letter_to_morse = {'a':'.-', 'b':'-...', 'c':'-.-.', 'd':'-..', 'e':'.', 'f':'..-.', 
+                   'g':'--.', 'h':'....', 'i':'..', 'j':'.---', 'k':'-.-', 'l':'.-..', 'm':'--', 
+                   'n':'-.', 'o':'---', 'p':'.--.', 'q':'--.-', 'r':'.-.', 's':'...', 't':'-',
+                   'u':'..-', 'v':'...-', 'w':'.--', 'x':'-..-', 'y':'-.--', 'z':'--..',
+                   '0':'-----', '1':'.----', '2':'..---', '3':'...--', '4':'....-',
+                   '5':'.....', '6':'-....', '7':'--...', '8':'---..', '9':'----.',
+                   ' ':'/'}
+
+# This will create a dictionary that can go from the morse back to the letter
+_morse_to_letter = {}
+for letter in _letter_to_morse:
+    morse = _letter_to_morse[letter]
+    _morse_to_letter[morse] = letter
+
+
+def encode(message):
+    """
+    Encode a message from English to Morse Code
+    
+    Args:
+        message (str): the English message to encode
+    
+    Returns:
+        str: The encoded message
+    
+    Examples:
+        >>> encode("Help us")
+        '.... . .-.. .--. / ..- ...'
+    """
+    morse = []
+
+    for letter in message:
+        letter = letter.lower()
+        
+        if letter not in _letter_to_morse:
+            raise ValueError(f"Cannot encode \"{message}\". Character \"{letter}\" not in Morse dictionary")
+        
+        morse.append(_letter_to_morse[letter])
+
+    # We need to join together Morse code letters with spaces
+    morse_message = " ".join(morse)
+    
+    return morse_message
+
+
+def decode(message):
+    """
+    Decode a message from Morse Code to English
+    
+    Args:
+        message (str): the Morse Code message to decode
+    
+    Returns:
+        str: The decoded English message
+    
+    Examples:
+        >>> decode(".... . .-.. .--. / ..- ...")
+        'help us'
+    """
+    english = []
+
+    # Now we cannot read by letter. We know that morse letters are
+    # separated by a space, so we split the morse string by spaces
+    morse_letters = message.split(" ")
+
+    for letter in morse_letters:
+        english.append(_morse_to_letter[letter])
+
+    # Rejoin, but now we don't need to add any spaces
+    english_message = "".join(english)
+    
+    return english_message
+```
+
+
+
+
+```python
+
+import string
+
+_lower_cipher = string.ascii_lowercase[13:] + string.ascii_lowercase[:13]
+_upper_cipher = string.ascii_uppercase[13:] + string.ascii_uppercase[:13]
+
+def encode(message):
+    """
+    Encode a message from English to ROT13
+    
+    Args:
+        message (str): the English message to encode
+    
+    Returns:
+        str: The encoded message
+    
+    Examples:
+        >>> encode("Secretmessage")
+        'Frpergzrffntr'
+    """
+    output = []
+    for letter in message:
+        if letter in string.ascii_lowercase:
+            i = string.ascii_lowercase.find(letter)
+            output.append(_lower_cipher[i])
+        elif letter in string.ascii_uppercase:
+            i = string.ascii_uppercase.find(letter)
+            output.append(_upper_cipher[i])
+        else:  # Add this else statement
+            raise ValueError(f"Cannot encode \"{message}\". Character \"{letter}\" not valid")
+    
+    return "".join(output)
+
+
+def decode(message):
+    """
+    Encode a message from ROT13 to English
+    
+    Args:
+        message (str): the ROT13 message to encode
+    
+    Returns:
+        str: The decoded message
+    
+    Examples:
+        >>> encode("Frpergzrffntr")
+        'Secretmessage'
+    """
+    output = []
+    for letter in message:
+        if letter in _lower_cipher:
+            i = _lower_cipher.find(letter)
+            output.append(string.ascii_lowercase[i])  # ascii_uppercase → ascii_lowercase
+        elif letter in _upper_cipher:
+            i = _upper_cipher.find(letter)
+            output.append(string.ascii_uppercase[i])
+        else:  # Add this else statement
+            raise ValueError(f"Cannot decode \"{message}\". Character \"{letter}\" not valid")
+    
+    return "".join(output)
+```
+
+
+
+```python
+
+import pytest
+
+from morse import encode, decode
+
+@pytest.mark.parametrize("message", [
+    "sos",
+    "help us please",
+    "An Uppercase String",
+])
+def test_roundtrip(message):
+    assert decode(encode(message)) == message
+```
+
+
+
+
+```python
+
+import pytest
+
+from rot13 import encode, decode
+
+@pytest.mark.parametrize("message", [
+    "sos",
+    "helpusplease",
+    "AnUppercaseString",
+])
+def test_roundtrip(message):
+    assert decode(encode(message)) == message
+```
+
+
+
+
+```python
+!COLUMNS=60 pytest -v morse.py rot13.py test_morse.py test_rot13.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 6 items                                          [0m
+    
+    test_morse.py::test_roundtrip[sos] [32mPASSED[0m[32m            [ 16%][0m
+    test_morse.py::test_roundtrip[help us please] [32mPASSED[0m[32m [ 33%][0m
+    test_morse.py::test_roundtrip[An Uppercase String] [31mFAILED[0m[31m [ 50%][0m
+    test_rot13.py::test_roundtrip[sos] [32mPASSED[0m[31m            [ 66%][0m
+    test_rot13.py::test_roundtrip[helpusplease] [32mPASSED[0m[31m   [ 83%][0m
+    test_rot13.py::test_roundtrip[AnUppercaseString] [32mPASSED[0m[31m [100%][0m
+    
+    ========================= FAILURES =========================
+    [31m[1m___________ test_roundtrip[An Uppercase String] ____________[0m
+    
+    message = 'An Uppercase String'
+    
+        [37m@pytest[39;49;00m.mark.parametrize([33m"[39;49;00m[33mmessage[39;49;00m[33m"[39;49;00m, [
+            [33m"[39;49;00m[33msos[39;49;00m[33m"[39;49;00m,
+            [33m"[39;49;00m[33mhelp us please[39;49;00m[33m"[39;49;00m,
+            [33m"[39;49;00m[33mAn Uppercase String[39;49;00m[33m"[39;49;00m,
+        ])
+        [94mdef[39;49;00m [92mtest_roundtrip[39;49;00m(message):
+    >       [94massert[39;49;00m decode(encode(message)) == message
+    [1m[31mE       AssertionError: assert 'an uppercase string' == 'An Uppercase String'[0m
+    [1m[31mE         - An Uppercase String[0m
+    [1m[31mE         ? ^  ^         ^[0m
+    [1m[31mE         + an uppercase string[0m
+    [1m[31mE         ? ^  ^         ^[0m
+    
+    [1m[31mtest_morse.py[0m:12: AssertionError
+    ================= short test summary info ==================
+    FAILED test_morse.py::test_roundtrip[An Uppercase String]
+    [31m=============== [31m[1m1 failed[0m, [32m5 passed[0m[31m in 0.10s[0m[31m ================[0m
+
+
+The Morse Code converter does not maintain the case of the string. All messages passed into it will be converted to lower case. This means that a message like "SOS" will, after round-tripping be "sos". This means that in this case, the invariant of the round-trip is not that the messages are identical, but rather that they are "identical if you ignore case".
+
+To make our test do this, we can compare the round-tripped message against the lower case message with `message.lower()`:
+
+
+```python
+
+import pytest
+
+from morse import encode, decode
+
+@pytest.mark.parametrize("message", [
+    "sos",
+    "help us please",
+    "An Uppercase String",
+])
+def test_roundtrip(message):
+    assert decode(encode(message)) == message.lower()  # This line has changed
+```
+
+
+
+
+```python
+!COLUMNS=60 pytest -v morse.py rot13.py test_morse.py test_rot13.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 6 items                                          [0m
+    
+    test_morse.py::test_roundtrip[sos] [32mPASSED[0m[32m            [ 16%][0m
+    test_morse.py::test_roundtrip[help us please] [32mPASSED[0m[32m [ 33%][0m
+    test_morse.py::test_roundtrip[An Uppercase String] [32mPASSED[0m[32m [ 50%][0m
+    test_rot13.py::test_roundtrip[sos] [32mPASSED[0m[32m            [ 66%][0m
+    test_rot13.py::test_roundtrip[helpusplease] [32mPASSED[0m[32m   [ 83%][0m
+    test_rot13.py::test_roundtrip[AnUppercaseString] [32mPASSED[0m[32m [100%][0m
+    
+    [32m==================== [32m[1m6 passed[0m[32m in 0.02s[0m[32m =====================[0m
+

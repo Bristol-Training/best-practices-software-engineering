@@ -1,0 +1,135 @@
+```python
+
+import string
+
+_lower_cipher = string.ascii_lowercase[13:] + string.ascii_lowercase[:13]
+_upper_cipher = string.ascii_uppercase[13:] + string.ascii_uppercase[:13]
+
+def encode(message):
+    """
+    Encode a message from English to ROT13
+    
+    Args:
+        message (str): the English message to encode
+    
+    Returns:
+        str: The encoded message
+    
+    Examples:
+        >>> encode("Secretmessage")
+        'Frpergzrffntr'
+    """
+    output = []
+    for letter in message:
+        if letter in string.ascii_lowercase:
+            i = string.ascii_lowercase.find(letter)
+            output.append(_lower_cipher[i])
+        elif letter in string.ascii_uppercase:
+            i = string.ascii_uppercase.find(letter)
+            output.append(_upper_cipher[i])
+        else:  # Add this else statement
+            raise ValueError(f"Cannot encode \"{message}\". Character \"{letter}\" not valid")
+    
+    return "".join(output)
+
+
+def decode(message):
+    """
+    Encode a message from ROT13 to English
+    
+    Args:
+        message (str): the ROT13 message to encode
+    
+    Returns:
+        str: The decoded message
+    
+    Examples:
+        >>> encode("Frpergzrffntr")
+        'Secretmessage'
+    """
+    output = []
+    for letter in message:
+        if letter in _lower_cipher:
+            i = _lower_cipher.find(letter)
+            output.append(string.ascii_lowercase[i])  # ascii_uppercase → ascii_lowercase
+        elif letter in _upper_cipher:
+            i = _upper_cipher.find(letter)
+            output.append(string.ascii_uppercase[i])
+        else:  # Add this else statement
+            raise ValueError(f"Cannot decode \"{message}\". Character \"{letter}\" not valid")
+    
+    return "".join(output)
+
+    # An alternate "clever" solution is to exploit the fact that rot13 is its own inverse
+    # and simply call the encode function again. The entirety of this function would then
+    # just become:
+    #
+    # return encode(message)
+```
+
+
+
+
+```python
+
+import pytest
+
+from rot13 import encode, decode
+
+@pytest.mark.parametrize("message, expected", [
+    ("SECRET", "FRPERG"),
+    ("secret", "frperg"),
+])
+def test_encode(message, expected):
+    assert encode(message) == expected
+
+@pytest.mark.parametrize("message, expected", [
+    ("FRPERG", "SECRET"),
+    ("frperg", "secret"),
+])
+def test_decode(message, expected):
+    assert decode(message) == expected
+
+def test_encode_spaces_error():
+    with pytest.raises(ValueError):
+        encode("Secret message for you")
+```
+
+
+
+
+```python
+!COLUMNS=60 pytest -v --doctest-modules morse.py rot13.py test_morse.py test_rot13.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 21 items                                         [0m
+    
+    morse.py::morse.decode [32mPASSED[0m[32m                        [  4%][0m
+    morse.py::morse.encode [32mPASSED[0m[32m                        [  9%][0m
+    rot13.py::rot13.decode [32mPASSED[0m[32m                        [ 14%][0m
+    rot13.py::rot13.encode [32mPASSED[0m[32m                        [ 19%][0m
+    test_morse.py::test_encode[SOS-... --- ...] [32mPASSED[0m[32m   [ 23%][0m
+    test_morse.py::test_encode[help-.... . .-.. .--.] [32mPASSED[0m[32m [ 28%][0m
+    test_morse.py::test_encode[-] [32mPASSED[0m[32m                 [ 33%][0m
+    test_morse.py::test_encode[ -/] [32mPASSED[0m[32m               [ 38%][0m
+    test_morse.py::test_decode[... --- ...-sos] [32mPASSED[0m[32m   [ 42%][0m
+    test_morse.py::test_decode[.... . .-.. .--.-help] [32mPASSED[0m[32m [ 47%][0m
+    test_morse.py::test_decode[/- ] [32mPASSED[0m[32m               [ 52%][0m
+    test_morse.py::test_error [32mPASSED[0m[32m                     [ 57%][0m
+    test_morse.py::test_errors[It's sinking] [32mPASSED[0m[32m      [ 61%][0m
+    test_morse.py::test_errors[Titanic & Olympic] [32mPASSED[0m[32m [ 66%][0m
+    test_morse.py::test_errors[This boat is expensive \xa3\xa3\xa3] [32mPASSED[0m[32m [ 71%][0m
+    test_morse.py::test_errors[Help!] [32mPASSED[0m[32m             [ 76%][0m
+    test_rot13.py::test_encode[SECRET-FRPERG] [32mPASSED[0m[32m     [ 80%][0m
+    test_rot13.py::test_encode[secret-frperg] [32mPASSED[0m[32m     [ 85%][0m
+    test_rot13.py::test_decode[FRPERG-SECRET] [32mPASSED[0m[32m     [ 90%][0m
+    test_rot13.py::test_decode[frperg-secret] [32mPASSED[0m[32m     [ 95%][0m
+    test_rot13.py::test_encode_spaces_error [32mPASSED[0m[32m       [100%][0m
+    
+    [32m==================== [32m[1m21 passed[0m[32m in 0.06s[0m[32m ====================[0m
+

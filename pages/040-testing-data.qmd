@@ -1,0 +1,390 @@
+---
+title: Input data for tests
+---
+
+
+
+As we saw in the last section, when using parametrisation it's often useful to split your test function into two logical parts:
+
+- The data to be tested
+- The code to do the test
+
+This is because we had a situation where we had one test function and multiple examples to test. The opposite situation also happens where we have multiple test functions, all of which want the same input data.
+
+The name that pytest uses for "data which are provided to test functions" is *fixture* since it *fixes* a set of data against which to test.
+
+We'll start with the example of the `add_arrays` function to explain the syntax but soon we'll need to use an example which demonstates the benefits more.
+
+To make things clearer, we'll trim down the test file back to the basics. Just one test for `add_arrays`:
+
+
+```python
+
+"""
+This module contains functions for manipulating and combining Python lists.
+"""
+
+def add_arrays(x, y):
+    """
+    This function adds together each element of the two passed lists.
+
+    Args:
+        x (list): The first list to add
+        y (list): The second list to add
+
+    Returns:
+        list: the pairwise sums of ``x`` and ``y``.
+
+    Examples:
+        >>> add_arrays([1, 4, 5], [4, 3, 5])
+        [5, 7, 10]
+    """
+
+    if len(x) != len(y):
+        raise ValueError("Both arrays must have the same length.")
+
+    z = []
+    for x_, y_ in zip(x, y):
+        z.append(x_ + y_)
+
+    return z
+```
+
+
+```python
+
+from arrays import add_arrays
+
+def test_add_arrays():
+    a = [1, 2, 3]
+    b = [4, 5, 6]
+    expect = [5, 7, 9]
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+```
+
+To create our fixture we define a function which is decorated with the `pytest.fixture` decorator. Apart from that, all the function needs to do is return the data we want to provide to our tests, in this case, the two input lists:
+
+```python
+import pytest
+
+@pytest.fixture
+def pair_of_lists():
+    return [1, 2, 3], [4, 5, 6]
+```
+
+To make the test functions make use of the fixture, we use the name of the fixture (`pair_of_lists`) as a parameter of the test function, similar to how we did with parametrisation:
+
+```python
+def test_add_arrays(pair_of_lists):
+    ...
+```
+
+The data are now available inside the function using that name and we can use it however we wish:
+
+```python
+def test_add_arrays(pair_of_lists):
+    a, b = pair_of_lists
+    ...
+```
+
+This isn't how functions and arguments usually work in Python. pytest is doing something magic here and is matching up the names of things which it knows are fixtures (due to the decorator) with the names of parameters to test functions, automatically running the fixture and passing in the data.
+
+Note that `pair_of_lists` here is not a test function. It does not contain any `assert`s and will not  explicitly appear in the `pytest` output.
+
+Putting it all together, we end up with:
+
+
+```python
+
+import pytest
+
+from arrays import add_arrays
+
+@pytest.fixture
+def pair_of_lists():
+    return [1, 2, 3], [4, 5, 6]
+
+def test_add_arrays(pair_of_lists):
+    a, b = pair_of_lists
+    expect = [5, 7, 9]
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+```
+
+When we run the test suite, pytest will automatically run the `pair_of_lists` function for any test that has it as an input and pass in the result.
+
+
+```python
+!COLUMNS=60 pytest -v test_arrays.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.12, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- /usr/bin/python3.8
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: anyio-3.3.4
+    collected 1 item                                           [0m
+    
+    test_arrays.py::test_add_arrays [32mPASSED[0m[32m               [100%][0m
+    
+    [32m==================== [32m[1m1 passed[0m[32m in 0.01s[0m[32m =====================[0m
+
+
+## A different example
+
+It might be hard to see the benefit of fixtures with this rather contrived example in which there aren't repeated uses of the same input data. So lets take a look at a more sensible one where using a fixture makes sense.
+
+Make a new file called `books.py` which contains the following:
+
+
+```python
+
+def word_count(text, word=''):
+    """
+    Count the number of occurences of ``word`` in a string.
+    If ``word`` is not set, count all words.
+    
+    Args:
+        text (str): the text corpus to search through
+        word (str): the word to count instances of
+
+    Returns:
+        int: the count of ``word`` in ``text``
+    """
+    if word:
+        count = 0
+        for text_word in text.split():
+            if text_word == word:
+                count += 1
+        return count
+    else:
+        return len(text.split())
+```
+
+
+
+To test this function we want a corpus of text to test it on. For the purposes of this example and to simulate a complex data input, we will download the contents of a particularly long novel from Project Gutenberg. Our test function uses [`urllib.request`](https://docs.python.org/3/library/urllib.request.html) to download the text, converts it to a string and passes that to the `word_count` function.
+
+At first we will simply check that the word "hat" appears 33 times in the book:
+
+
+```python
+
+import urllib.request
+
+from books import word_count
+
+def test_word_counts():
+    url = "https://www.gutenberg.org/files/2600/2600-0.txt"
+    book_text = urllib.request.urlopen(url).read().decode('utf-8')
+    assert word_count(book_text, "hat") == 33
+```
+
+
+
+```python
+!COLUMNS=60 pytest -v test_books.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.12, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- /usr/bin/python3.8
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: anyio-3.3.4
+    collected 1 item                                           [0m
+    
+    test_books.py::test_word_counts [32mPASSED[0m[32m               [100%][0m
+    
+    [32m==================== [32m[1m1 passed[0m[32m in 1.93s[0m[32m =====================[0m
+
+
+The test has passed and it took about two seconds. This is because it takes some time to download the file from the internet. For this example we *want* it to take some time as it helps demonstrate the point. In reality you will come across test data inputs which take some time (more than a few milliseconds) to create.
+
+This creates a tension between wanting to have a large test suite which covers your code from lots of different angles and being able to run it very quickly and easily. An ideal test suite will run as quickly as possible as it will encourage you to run it more often. It's a good idea to have at least a subset of your tests which run through in some number of seconds rather than hours.
+
+Two seconds is not bad for this test but if we want to test against multiple examples, it could get slow. Let's parametrise the test to add in a bunch more inputs:
+
+
+```python
+
+import urllib.request
+
+import pytest
+
+from books import word_count
+
+@pytest.mark.parametrize('word, count',  [
+    ('hat', 33),
+    ('freedom', 71),
+    ('electricity', 1),
+    ('testing', 3),
+    ('Prince', 1499),
+    ('internet', 0),
+    ('Russia', 71),
+    ('Pierre', 1260),
+    (None, 566334),
+])
+def test_word_counts(word, count):
+    url = "https://www.gutenberg.org/files/2600/2600-0.txt"
+    book_text = urllib.request.urlopen(url).read().decode('utf-8')
+    assert word_count(book_text, word) == count
+```
+
+
+
+```python
+!COLUMNS=60 pytest -v test_books.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.12, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- /usr/bin/python3.8
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: anyio-3.3.4
+    collected 9 items                                          [0m
+    
+    test_books.py::test_word_counts[hat-33] [32mPASSED[0m[32m       [ 11%][0m
+    test_books.py::test_word_counts[freedom-71] [32mPASSED[0m[32m   [ 22%][0m
+    test_books.py::test_word_counts[electricity-1] [32mPASSED[0m[32m [ 33%][0m
+    test_books.py::test_word_counts[testing-3] [32mPASSED[0m[32m    [ 44%][0m
+    test_books.py::test_word_counts[Prince-1499] [32mPASSED[0m[32m  [ 55%][0m
+    test_books.py::test_word_counts[internet-0] [32mPASSED[0m[32m   [ 66%][0m
+    test_books.py::test_word_counts[Russia-71] [32mPASSED[0m[32m    [ 77%][0m
+    test_books.py::test_word_counts[Pierre-1260] [32mPASSED[0m[32m  [ 88%][0m
+    test_books.py::test_word_counts[None-566334] [32mPASSED[0m[32m  [100%][0m
+    
+    [32m==================== [32m[1m9 passed[0m[32m in 22.76s[0m[32m ====================[0m
+
+
+You see here that it took about nine times as long. This is because the file is downloaded afresh for every test example where really, it only *needs* to be downloaded once.
+
+Let's move the slow setup into a fixture and give that as a parameter of the test function:
+
+
+```python
+
+import urllib.request
+
+import pytest
+
+from books import word_count
+
+@pytest.fixture()
+def long_book():
+    url = "https://www.gutenberg.org/files/2600/2600-0.txt"
+    book_text = urllib.request.urlopen(url).read().decode('utf-8')
+    return book_text
+
+@pytest.mark.parametrize('word, count',  [
+    ('hat', 33),
+    ('freedom', 71),
+    ('electricity', 1),
+    ('testing', 3),
+    ('Prince', 1499),
+    ('internet', 0),
+    ('Russia', 71),
+    ('Pierre', 1260),
+    (None, 566334),
+])
+def test_word_counts(long_book, word, count):
+    assert word_count(long_book, word) == count
+```
+
+
+
+
+```python
+!COLUMNS=60 pytest -v test_books.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.12, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- /usr/bin/python3.8
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: anyio-3.3.4
+    collected 9 items                                          [0m
+    
+    test_books.py::test_word_counts[hat-33] [32mPASSED[0m[32m       [ 11%][0m
+    test_books.py::test_word_counts[freedom-71] [32mPASSED[0m[32m   [ 22%][0m
+    test_books.py::test_word_counts[electricity-1] [32mPASSED[0m[32m [ 33%][0m
+    test_books.py::test_word_counts[testing-3] [32mPASSED[0m[32m    [ 44%][0m
+    test_books.py::test_word_counts[Prince-1499] [32mPASSED[0m[32m  [ 55%][0m
+    test_books.py::test_word_counts[internet-0] [32mPASSED[0m[32m   [ 66%][0m
+    test_books.py::test_word_counts[Russia-71] [32mPASSED[0m[32m    [ 77%][0m
+    test_books.py::test_word_counts[Pierre-1260] [32mPASSED[0m[32m  [ 88%][0m
+    test_books.py::test_word_counts[None-566334] [32mPASSED[0m[32m  [100%][0m
+    
+    [32m==================== [32m[1m9 passed[0m[32m in 27.78s[0m[32m ====================[0m
+
+
+Perhaps surprisingly, it is still taking very long time!
+
+By default a fixture will run once for every test function that uses it. In our case we only need it to run once for all the tests in the test session so we can pass in the `scope` parameter to `pytest.fixture` and set it to `session`:
+
+
+```python
+
+import urllib.request
+
+import pytest
+
+from books import word_count
+
+@pytest.fixture(scope="session")
+def long_book():
+    url = "https://www.gutenberg.org/files/2600/2600-0.txt"
+    book_text = urllib.request.urlopen(url).read().decode('utf-8')
+    return book_text
+
+@pytest.mark.parametrize('word, count',  [
+    ('hat', 33),
+    ('freedom', 71),
+    ('electricity', 1),
+    ('testing', 3),
+    ('Prince', 1499),
+    ('internet', 0),
+    ('Russia', 71),
+    ('Pierre', 1260),
+    (None, 566334),
+])
+def test_word_counts(long_book, word, count):
+    assert word_count(long_book, word) == count
+```
+
+
+
+```python
+!COLUMNS=60 pytest -v test_books.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.12, pytest-6.2.5, py-1.10.0, pluggy-1.0.0 -- /usr/bin/python3.8
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: anyio-3.3.4
+    collected 9 items                                          [0m
+    
+    test_books.py::test_word_counts[hat-33] [32mPASSED[0m[32m       [ 11%][0m
+    test_books.py::test_word_counts[freedom-71] [32mPASSED[0m[32m   [ 22%][0m
+    test_books.py::test_word_counts[electricity-1] [32mPASSED[0m[32m [ 33%][0m
+    test_books.py::test_word_counts[testing-3] [32mPASSED[0m[32m    [ 44%][0m
+    test_books.py::test_word_counts[Prince-1499] [32mPASSED[0m[32m  [ 55%][0m
+    test_books.py::test_word_counts[internet-0] [32mPASSED[0m[32m   [ 66%][0m
+    test_books.py::test_word_counts[Russia-71] [32mPASSED[0m[32m    [ 77%][0m
+    test_books.py::test_word_counts[Pierre-1260] [32mPASSED[0m[32m  [ 88%][0m
+    test_books.py::test_word_counts[None-566334] [32mPASSED[0m[32m  [100%][0m
+    
+    [32m==================== [32m[1m9 passed[0m[32m in 3.39s[0m[32m =====================[0m
+
+
+Now it only takes about as long as a single test did since the slow part is only being done once.
+
+::: {#exampleN .callout-note icon=false title='Exercise'}
+Add some more parameters to the test and check that it doesn't take any longer to run
+:::
+

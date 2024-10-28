@@ -1,0 +1,83 @@
+---
+title: Introduction
+---
+
+Welcome to this short course which will introduce you to some techniques and processes which are essential if you are going to be developing professional-quality software.
+
+For this course we will be focusing on three main topics:
+
+1. documentation
+2. testing
+3. licensing
+
+and discussing why they're important and how to integrate them into your code. To discover these concepts we will be exploring then in Python but the ideas behind what we're doing here apply to all programming languages. You can do documentation and testing in C, C++, R, Fortran, Julia, Go and Rust but each will have their own tools and techniques. Languages which make going these things easy are good languages for doing software development in.
+
+
+For the purpose of this course we will be using a free tool called JupyterLab which provides you with a local editor and Python terminal in your web browser. Setting up instructions can be found [here](./pages/001-workspace-setup.qmd).
+
+### Intended learning outcomes
+
+By the end of this course, you will:
+
+- Know how to document your Python functions and modules
+- Write test functions and automate them
+- Know how to do testing with multiple data
+- Understand the principles of licensing code
+
+
+## How to read this documentation
+
+In this documentation, any time that we are seeing a small snippet of Python code, we'll see it written in a grey box like the following:
+
+```{.python}
+print("Hello, Python")
+```
+
+If the commands are executed by the machine we will see the output of them below enclosed on a vertical purple line:
+
+```{python}
+print("Hello, Python!")
+```
+
+By contrast, you will see larger peces of code as scripts with a given name, e.g. `script.py`, in a code block with darker header:
+
+```{.python filename="script.py"}
+greeting = "Hello"
+name = input("What is your name? ")
+print(greeting, name)
+```
+
+We may ask you to run a script using the `Command Prompt` (Windows) or `Terminal` (Mac and Linux). We will show you what commands to run and will look like this:
+```{.bash filename="Terminal/Command Prompt"}
+python script.py
+```
+
+**Please note that sometimes we will skip showing the execution of scripts on the Terminal/Command Prompt box, but we will assume you to run the script on your.**
+
+In some cases we will introduce general programming concepts and structures using pseudocode, a high-level, easy-to-read syntax close to natural language. This should not be confused with Python code and cannot be executed on your machine, but it is useful to describe how your code should behave. Here there is an example:
+```
+FOR EACH sample IN my_study
+    IF (sample.value > 100)
+        DO SOMETHING
+    OTHERWISE
+        DO SOMETHING ELSE
+```
+
+
+There are some exercises along this course, and it is important you try to answer them yourself to understand how Python works. Exercises are shown in blue boxes followed by a yellow box that contains the answer of each exercise. We recommend you to try to answer each exercise yourself before looking at the solution. 
+
+::: {#exampleN .callout-note icon=false title='Exercise'}
+This is an exercise. You will need to click in the below box to see the answer.
+:::
+
+::: {#answerN .callout-caution icon=false title='Answer (click to open)' collapse="true"}
+This is the answer.
+:::
+
+Last, we will highlight important points using green boxes like this one:
+
+::: {#keypointsN .callout-tip icon=false title='Key points'}
+These are important concepts and technical notes.
+:::
+
+

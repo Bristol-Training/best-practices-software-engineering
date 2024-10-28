@@ -1,0 +1,174 @@
+---
+title: Tenets of good software
+---
+
+
+
+Taking a break from learning new syntax or technical tools to think about how we can write better code. There are numerous blogs, articles and books about these topics but I wanted to pick out a few that I think are particularly worthwhile.
+
+## Don't repeat yourself
+
+One of the first and easiest to apply is that of avoiding repetition. This is often referred to as the [DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
+
+The most direct application of this is that of using functions. If you're ever in the situation where you are copying and pasting code, it's probably worth stopping and thinking "should I move this into a function?".
+
+The advantage of the DRY principle is that by avoiding duplication **you make maintenance easier**. If you want to update, change or fix something you only need to do it in one place.
+
+## Make your code easy to use correctly and hard to use incorrectly
+
+This is a principle that was [coined by Scott Meyers in 2004](https://doi.org/10.1109/MS.2004.29). The idea being that if you are writing code which will be used by others (functions, classes etc.) or writing user-interfaces (website, apps etc.) then you should endeavour to make the correct use of your product the "easy path".
+
+As an example, let's look at a function which calculated the distance in kilometres between a given latitude/longitude pair and Bristol:
+
+
+```python
+from math import sin, cos, sqrt, atan2, radians
+
+def distance_from_bristol(lon, lat):
+    """
+    Given a longitude and latitude in degrees,
+    return the distance in km from Bristol.
+    """
+    lon, lat = radians(lon), radians(lat)
+    bristol_lat = radians(51.4539886)
+    bristol_lon = radians(-2.6068184)
+    dlon = lon - bristol_lon
+    dlat = lat - bristol_lat
+    a = sin(dlat / 2)**2 + cos(bristol_lat) * cos(lat) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return 6373.0 * c
+```
+
+When we come to use this function, we call it by passing the two values:
+
+
+```python
+lat_london = 51.5006895
+lon_london = -0.1245838
+
+distance_from_bristol(lat_london, lon_london)
+```
+
+
+    7638.924775713775
+
+
+
+That number is far too big! What happened?
+
+The problem here is that the function expected the arguments to be passed in a longitude first and the latitude but we passed them the other way around. This function is *easy to use incorrectly*.
+
+To help solve this, Python has a feature where you can specify that certain arguments *must* be passed in as named arguments. This is done by setting a literal `*` as a parameter and then all following parameters must only be passed by name:
+
+
+```python
+def distance_from_bristol(*, lon, lat):  #  ← the only line that has changed
+    """
+    Given a longitude and latitude in degrees,
+    return the distance in km from Bristol.
+    """
+    lon, lat = radians(lon), radians(lat)
+    bristol_lat = radians(51.4539886)
+    bristol_lon = radians(-2.6068184)
+    dlon = lon - bristol_lon
+    dlat = lat - bristol_lat
+    a = sin(dlat / 2)**2 + cos(bristol_lat) * cos(lat) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return 6373.0 * c
+```
+
+Now when we try to call the function without specifying which argument is which, we get an error:
+
+
+```python
+distance_from_bristol(lat_london, lon_london)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-4-343c08b29905> in <module>
+    ----> 1 distance_from_bristol(lat_london, lon_london)
+    
+
+    TypeError: distance_from_bristol() takes 0 positional arguments but 2 were given
+
+
+Once we are explicit, it works correctly:
+
+
+```python
+distance_from_bristol(lat=lat_london, lon=lon_london)
+```
+
+
+
+
+    172.03101346881488
+
+
+
+It is now *harder to use incorrectly*.
+
+There's still the issue that it's very easy to pass in the latitude and longitude in the wrong units. A potential solution to this would be to create a `Point` class which encode within it whether the units are degree or radians and require users of that class to specify then putting in values or removing them.
+
+## The Zen of Python
+
+Python has a document, called *The Zen of Python*, which describes what it considers the core principles for writing good Python code. It is available as [Python Enhancement Proposal 20](https://www.python.org/dev/peps/pep-0020/) and is also available by importing the special `this` module.
+
+It's worth having a read through as almost all of these ideas apply to programming in general.
+
+
+```python
+import this
+```
+
+    The Zen of Python, by Tim Peters
+    
+    Beautiful is better than ugly.
+    Explicit is better than implicit.
+    Simple is better than complex.
+    Complex is better than complicated.
+    Flat is better than nested.
+    Sparse is better than dense.
+    Readability counts.
+    Special cases aren't special enough to break the rules.
+    Although practicality beats purity.
+    Errors should never pass silently.
+    Unless explicitly silenced.
+    In the face of ambiguity, refuse the temptation to guess.
+    There should be one-- and preferably only one --obvious way to do it.
+    Although that way may not be obvious at first unless you're Dutch.
+    Now is better than never.
+    Although never is often better than *right* now.
+    If the implementation is hard to explain, it's a bad idea.
+    If the implementation is easy to explain, it may be a good idea.
+    Namespaces are one honking great idea -- let's do more of those!
+
+
+Of particular note are:
+
+
+**Readability counts**.
+When writing code, don't just think about how it will be interpreted by the computer, also consider your fellow human. Code will be read many more time than it is written so optimise for understandability.
+    
+**Errors should never pass silently**.
+This is the logic behind Python's use of exceptions. You can't ignore an error unless you explicitly decide to. This is in contrast to common techniques in use in languages like C where a function might return a `0` if it was successful or a `1` otherwise and it would be up to the person calling the function to remember to check the value themselves.
+    
+**There should be one — and preferably only one — obvious way to do it**.
+This goes hand-in-hand with the idea of making your code easy to use correctly and hard to use incorrectly. Provide a simple and consistent interface to your users, and don't display unnecessary complexity.
+
+
+To explain the "unless you're Dutch" comment, the Zen of Python was written by Tim Peters in the early days of Python and this is intended as a friendly jab at the creator of Python [Guido van Rossum](https://en.wikipedia.org/wiki/Guido_van_Rossum) who is Dutch.
+
+There's a lot of good advice in there and I recommend coming back and giving it a read every now and again. Despite it being over 20 years old, it's still completely relevant.
+
+## Testable code is better code
+
+The one rule that I've found to be the most useful when deciding what is "good code" is the question "how easy is this to test?". If there's one thing to take away from this course, I'd say it should be this.
+
+You will find that in the process of thinking about how to make your code more easily testable you'll make it more modular, composable and with better-defined interfaces. All of which make it cleaner, easier to understand and more maintainable.
+
+Testing therefore has the double benefit of both giving confidence that your code is correct and making the code better along the way.

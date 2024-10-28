@@ -1,0 +1,45 @@
+project:
+  type: website
+
+website:
+  title: "Best Practices in Software Engineering"
+  page-navigation: true
+
+  sidebar: 
+    title: "Best Practices in Software Engineering"
+    logo: "assets/UoB_RGB_24.png"
+    align: center
+    logo-alt: "University of Bristol logo"
+    style: "docked"
+    border: true
+    contents: 
+      - "index.qmd"
+      - "pages/001-workspace-setup.qmd"
+      - "pages/010-good-software-principles.qmd"
+      - "pages/020-documentation.qmd"
+      - "pages/030-testing.qmd"
+      - "pages/040-testing-data.qmd"
+      - "pages/050-licensing.qmd"
+      - "pages/070-worksheet.qmd"
+      - "pages/980-summary.qmd"
+      - "pages/990-contributors.qmd"
+
+
+  page-footer:
+    left: "[Jean Golding Institute](https://www.bristol.ac.uk/golding/) © [CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/)"  
+  repo-url: https://github.com/uob-training/best-practices-software-engineering
+  repo-actions: [edit, issue]
+
+format:
+  html:
+    theme: [cosmo, styles.scss]
+    toc: true
+    shift-heading-level-by: 1
+    highlight-style: github
+
+    # code-line-numbers: true
+
+execute:
+  freeze: auto
+  error: true
+

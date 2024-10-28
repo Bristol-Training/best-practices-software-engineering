@@ -1,0 +1,664 @@
+---
+title: Testing
+---
+
+
+Testing is extremely important. Without testing, you cannot be sure that your code is doing what you think. Testing is an integral part of software development, and where possible should be done *while* you are writing code, not after the code has been written.
+
+No doubt so far, you have been manually checking that your code does the right thing. Perhaps you are running your code over a particular input file and making sure that you get a correct-looking plot out at the end? Or maybe running it with a few known inputs and checking that you got what you got last time? This is a start but how can you be sure that there's not a subtle bug that means that the output is incorrect? And if there *is* a problem, how will you be able to work out exactly which line of code it causing it?
+
+In order to be confident that our code it giving a correct output, a *test suite* is useful which provides a set of known inputs and checks that the code matches a set of known, expected outputs. To make it easier to locate where a bug is occuring, it's a good idea to make each individual test run over as small an amount of code as possible so that if *that* test fails, you know where to look for the problem. In Python this "small unit of code" is usually a function.
+
+Let's get started by making sure that our `add_arrays` function matches the outputs we expect. As a reminder, this is what the file `arrays.py` looks like:
+
+
+```python
+"""
+This module contains functions for manipulating and combining Python lists.
+"""
+
+def add_arrays(x, y):
+    """
+    This function adds together each element of the two passed lists.
+
+    Args:
+        x (list): The first list to add
+        y (list): The second list to add
+
+    Returns:
+        list: the pairwise sums of ``x`` and ``y``.
+
+    Examples:
+        >>> add_arrays([1, 4, 5], [4, 3, 5])
+        [5, 7, 10]
+    """
+    z = []
+    for x_, y_ in zip(x, y):
+        z.append(x_ + y_)
+
+    return z
+```
+
+ 
+Since the name of the module we want to test is `arrays`, let's make a file called `test_arrays.py` which contains the following:
+
+
+```python
+from arrays import add_arrays
+
+def test_add_arrays():
+    a = [1, 2, 3]
+    b = [4, 5, 6]
+    expect = [5, 7, 9]
+    
+    output = add_arrays(a, b)
+    
+    if output == expect:
+        print("OK")
+    else:
+        print("BROKEN")
+
+test_add_arrays()
+```
+
+
+This script defines a function called `test_add_arrays` which defines some known inputs (`a` and `b`) and a known, matching output (`expect`). It passes them to the function `add_arrays` and compares the output to `expected`. It will either print `OK` or `BROKEN` depending on whether it's working or not. Finally, we explicitly call the test function.
+
+When we run the script in the Terminal, we see it output `OK`:
+
+
+```{.bash filename="Terminal/Command Prompt"}
+python test_arrays.py
+```
+
+    OK
+
+
+
+::: {#exampleN .callout-note icon=false title='Exercise'}
+
+Break the test by changing either `a`, `b` or `expected` and rerun the test script. Make sure that it prints `BROKEN` in this case. Change it back to a working state once you've done this.
+
+:::
+
+
+
+## Asserting
+
+The method used here works and runs the code correctly but it doesn't give very useful output. If we had five test functions in our file and three of them were failing we'd see something like:
+
+```
+OK
+BROKEN
+OK
+BROKEN
+BROKEN
+```
+
+We'd then have to cross-check back to our code to see which tests the `BROKEN`s referred to.
+
+To be able to automatically relate the output of the failing test to the place where your test failed, you can use an `assert` statement.
+
+An `assert` statement is followed by something which is either *truthy* or *falsy*. A falsy expression is something which, when converted to a `bool` gives `False`. This includes empty lists, the number `0` and `None`; everything else is considered truthy. The full list is available in [the documentation](https://docs.python.org/3/library/stdtypes.html#truth-value-testing).
+
+If it is truthy then nothing happens but if it is falsy then an exception is raised:
+
+
+```python
+assert 5 == 5
+```
+
+
+```python
+assert 5 == 6
+```
+
+
+    ---------------------------------------------------------------------------
+
+    AssertionError                            Traceback (most recent call last)
+
+    <ipython-input-6-05598cd61862> in <module>
+    ----> 1 assert 5 == 6
+    
+
+    AssertionError: 
+
+
+We can now use this `assert` statement in place of the `if`/`else` block:
+
+
+```python
+from arrays import add_arrays
+
+def test_add_arrays():
+    a = [1, 2, 3]
+    b = [4, 5, 6]
+    expect = [5, 7, 9]
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+
+test_add_arrays()
+```
+
+
+Now when we run the test script we get nothing printed on success:
+
+
+```{.bash filename="Terminal/Command Prompt"}
+python test_arrays.py
+```
+
+
+but on a failure we get an error printed like:
+
+```
+Traceback (most recent call last):
+  File "test_arrays.py", line 13, in <module>
+    test_add_arrays()
+  File "test_arrays.py", line 11, in test_add_arrays
+    assert output == expect
+AssertionError
+```
+
+Which, like all exception messages gives us the location in the file at which the error occurred. This has the avantage that if we had many test functions being run it would tell us which one failed and on which line.
+
+The downside of using an `assert` like this is that as soon as one test fails, the whole script will halt and you'll only be informed of that one test.
+
+## pytest
+
+There's a few things that we've been doing so far that could be improved. Firstly, for every test function that we write we then have to explicitly call it at the bottom of the test script like `test_add_arrays()`. This is error-prone as we might write a test function and forget to call it and then we would miss any errors it would catch.
+
+Secondly, we want nice, useful output from our test functions. Something better than the nothing/exception that a plain `assert` gives us. It would be nice to get a green `PASSED` for the good tests and a red `FAILED` for the bad ones alongside the name of the test in question.
+
+Finally, we want to make sure that all tests are run even if a test early in the process fails.
+
+Luckily, there is tool called *pytest* which can give us all of these things. It will work on our test script almost exactly as written with only one change needed.
+
+Remove the call to `test_add_arrays()` on the last line of the file:
+
+
+```python
+from arrays import add_arrays
+
+def test_add_arrays():
+    a = [1, 2, 3]
+    b = [4, 5, 6]
+    expect = [5, 7, 9]
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+```
+
+And in the Terminal, run `pytest`:
+
+
+```python
+!COLUMNS=60 pytest
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 1 item                                           [0m
+    
+    test_arrays.py [32m.[0m[32m                                     [100%][0m
+    
+    [32m==================== [32m[1m1 passed[0m[32m in 0.02s[0m[32m =====================[0m
+
+
+Pytest will do two stages. First it will try to locate all the test functions that it can find and then it will run each of them in turn, reporting the results.
+
+Here you can see that it's found that the file `test_arrays.py` contains a single test function. The green dot next to the name of the file signifies the passing test. It then prints a summary at the end saying "1 passed".
+
+The way that `pytest` works is that it looks for files which are called `test_*.py` or `*_test.py` and look inside those for functions whose names begin with `test`. It will then run those functions one at a time, reporting the results of each in turn.
+
+To see what it looks like when you have a failing test, let's deliberately break the test code by giving a wrong expected result:
+
+
+```python
+from arrays import add_arrays
+
+def test_add_arrays():
+    a = [1, 2, 3]
+    b = [4, 5, 6]
+    expect = [5, 7, 999]  # Changed this to break the test
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+```
+
+
+When we run this test with `pytest` it should tell us that the test is indeed failing:
+
+
+```python
+!COLUMNS=60 pytest
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 1 item                                           [0m
+    
+    test_arrays.py [31mF[0m[31m                                     [100%][0m
+    
+    ========================= FAILURES =========================
+    [31m[1m_____________________ test_add_arrays ______________________[0m
+    
+        [94mdef[39;49;00m [92mtest_add_arrays[39;49;00m():
+            a = [[94m1[39;49;00m, [94m2[39;49;00m, [94m3[39;49;00m]
+            b = [[94m4[39;49;00m, [94m5[39;49;00m, [94m6[39;49;00m]
+            expect = [[94m5[39;49;00m, [94m7[39;49;00m, [94m999[39;49;00m]  [90m# Changed this to break the test[39;49;00m
+        
+            output = add_arrays(a, b)
+        
+    >       [94massert[39;49;00m output == expect
+    [1m[31mE       assert [5, 7, 9] == [5, 7, 999][0m
+    [1m[31mE         At index 2 diff: 9 != 999[0m
+    [1m[31mE         Use -v to get the full diff[0m
+    
+    [1m[31mtest_arrays.py[0m:11: AssertionError
+    ================= short test summary info ==================
+    FAILED test_arrays.py::test_add_arrays - assert [5, 7, 9]...
+    [31m==================== [31m[1m1 failed[0m[31m in 0.10s[0m[31m =====================[0m
+
+
+The output from this is better than we saw with the plain `assert`. It's printing the full context of the contents of the test function with the line where the `assert` is failing being marked with a `>`. It then gives an expanded explanation of why the assert failed. Before we just got `AssertionError` but now it prints out the contents of `output` and `expect` and tells us that at index 2 of the list it's finding a `9` where we told it to expect a `999`.
+
+Before continuing, make sure that you change the file back to its previous contents by changing that `999` back to a `9`.
+
+
+```python
+from arrays import add_arrays
+
+def test_add_arrays():
+    a = [1, 2, 3]
+    b = [4, 5, 6]
+    expect = [5, 7, 9]  # Changed this back to 9
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+```
+
+
+::: {#exampleN .callout-note icon=false title='Exercise'}
+
+Make sure you can run the test as it is written here. See what happens when you make the test fail.
+
+:::
+
+## Avoid repeating ourselves
+
+Having a single test for a function is already infinitely better than having none, but one test only gives you so much confidence. The real power of a test suite is being able to test your functions under lots of different conditions.
+
+Lets add a second test to check a different set of inputs and outputs to the `add_arrays` function and check that it passes:
+
+
+```python
+
+from arrays import add_arrays
+
+def test_add_arrays1():
+    a = [1, 2, 3]
+    b = [4, 5, 6]
+    expect = [5, 7, 9]
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+
+def test_add_arrays2():
+    a = [-1, -5, -3]
+    b = [-4, -3, 0]
+    expect = [-5, -8, -3]
+    
+    output = add_arrays(a, b)
+    
+    assert output == expect
+```
+
+
+
+When we run `pytest` we can optionally pass the `-v` flag which puts it in *verbose* mode. This will print out the tests being run, one per line which I find a more useful view most of the time:
+
+
+```python
+!COLUMNS=60 pytest -v
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 2 items                                          [0m
+    
+    test_arrays.py::test_add_arrays1 [32mPASSED[0m[32m              [ 50%][0m
+    test_arrays.py::test_add_arrays2 [32mPASSED[0m[32m              [100%][0m
+    
+    [32m==================== [32m[1m2 passed[0m[32m in 0.07s[0m[32m =====================[0m
+
+
+We see both tests being run and passing. This will work well but we've had to repeat ourselves almost entirely in each test function. The only difference between the two functions is the inputs and outputs under test. Usually in this case in a normal Python function you would take these things as arguments and we can do the same thing here.
+
+The actual logic of the function is the following:
+
+```python
+def test_add_arrays(a, b, expect):
+    output = add_arrays(a, b)
+    assert output == expect
+```
+
+We then just need a way of passing the data we want to check into this function. Since we're not explicitly calling this function ourselves, we need a way to tell pytest that it should pass in certain arguments. For this, pytest provides a feature called *parametrisation*. We label our function with a *decoration* which allows pytest to run it mutliple times with different data.
+
+To use this feature we must import the `pytest` module and use the `pytest.mark.parametrize` decorator like the following:
+
+
+```python
+
+import pytest
+
+from arrays import add_arrays
+
+@pytest.mark.parametrize("a, b, expect", [
+    ([1, 2, 3],    [4, 5, 6],   [5, 7, 9]),
+    ([-1, -5, -3], [-4, -3, 0], [-5, -8, -3]),
+])
+def test_add_arrays(a, b, expect):
+    output = add_arrays(a, b)
+    
+    assert output == expect
+```
+
+
+
+The `parametrize` decorator takes two arguments:
+
+1. a string containing the names of the parameters you want to pass in (`"a, b, expect"`)
+2. a list containing the values of the arguments you want to pass in
+
+In this case, the test will be run twice. Once with each of the following values:
+
+1. `a=[1, 2, 3]`, `b=[4, 5, 6]`, `expect=[5, 7, 9]`
+2. `a=[-1, -5, -3]`, `b=[-4, -3, 0]`, `expect=[-5, -8, -3]`
+
+
+```python
+!COLUMNS=60 pytest -v
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 2 items                                          [0m
+    
+    test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 50%][0m
+    test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [100%][0m
+    
+    [32m==================== [32m[1m2 passed[0m[32m in 0.03s[0m[32m =====================[0m
+
+
+Running `pytest` we see that both tests have the same name (`test_arrays.py::test_add_arrays`) but each parametrisation is differentiated with some square brackets.
+
+
+::: {#exampleN .callout-note icon=false title='Exercise'}
+Add some more parameters sets to the `test_add_arrays` function. Try to think about corner-cases that might make the function fail. It's your job as the tester to try to "break" the code.
+:::
+
+::: {#answerN .callout-caution icon=false title='Answer' collapse="true"}
+{{< include ./answer_pytest_parametrise.qmd >}}
+:::
+
+
+
+## Failing correctly
+
+The interface of a function is made up of the *parameters* it expects and the values that it *returns*. If a user of a function knows these things then they are able to use it correctly. This is why we make sure to include this information in the docstring for all our functions.
+
+The other thing that is part of the interface of a function is any exceptions that are *raised* by it. If you need a refresher on exceptions and error handling in Python, take a look at [the chapter on it in the Intermediate Python course](../intermediate_python/Exceptions.html).
+
+To add explicit error handling to our function we need to do two things:
+1. add in a conditional `raise` statement:
+   ```python
+   if len(x) != len(y):
+       raise ValueError("Both arrays must have the same length.")
+   ```
+2. document in the docstring the fact that the function may raise something:
+   ```
+   Raises:
+       ValueError: If the length of the lists ``x`` and ``y`` are different.
+   ```
+
+Let's add these to `arrays.py`:
+
+
+```python
+"""
+This module contains functions for manipulating and combining Python lists.
+"""
+
+def add_arrays(x, y):
+    """
+    This function adds together each element of the two passed lists.
+
+    Args:
+        x (list): The first list to add
+        y (list): The second list to add
+
+    Returns:
+        list: the pairwise sums of ``x`` and ``y``.
+    
+    Raises:
+        ValueError: If the length of the lists ``x`` and ``y`` are different.
+
+    Examples:
+        >>> add_arrays([1, 4, 5], [4, 3, 5])
+        [5, 7, 10]
+    """
+    
+    if len(x) != len(y):
+        raise ValueError("Both arrays must have the same length.")
+    
+    z = []
+    for x_, y_ in zip(x, y):
+        z.append(x_ + y_)
+
+    return z
+```
+
+
+We can then test that the function correctly raises the exception when passed appropriate data.  Inside a pytest function we can require that a specific exception is raised by using [`pytest.raises`](https://docs.pytest.org/en/latest/reference.html#pytest-raises) in a `with` block. `pytest.raises` takes as an argument the type of an exception and if the block ends without that exception having been rasied, will fail the test.
+
+It may seem strange that we're testing-for and *requiring* that the function raises an error but it's important that if we've told our users that the code will produce a certain error in specific circumstances that it does indeed do as we promise.
+
+In our code we add a new test called `test_add_arrays_error` which does the check we require:
+
+
+```python
+import pytest
+
+from arrays import add_arrays
+
+@pytest.mark.parametrize("a, b, expect", [
+    ([1, 2, 3],    [4, 5, 6],   [5, 7, 9]),
+    ([-1, -5, -3], [-4, -3, 0], [-5, -8, -3]),
+])
+def test_add_arrays(a, b, expect):
+    output = add_arrays(a, b)
+    
+    assert output == expect
+
+def test_add_arrays_error():
+    a = [1, 2, 3]
+    b = [4, 5]
+    with pytest.raises(ValueError):
+        output = add_arrays(a, b)
+```
+
+
+
+```python
+!COLUMNS=60 pytest -v
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 3 items                                          [0m
+    
+    test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 33%][0m
+    test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [ 66%][0m
+    test_arrays.py::test_add_arrays_error [32mPASSED[0m[32m         [100%][0m
+    
+    [32m==================== [32m[1m3 passed[0m[32m in 0.03s[0m[32m =====================[0m
+
+
+
+::: {#exampleN .callout-note icon=false title='Exercise'}
+- Make sure you can run the ``test_add_arrays_error`` test and that it passes.
+- If you have time, try parametrising the ``test_add_arrays_error`` test fuction.
+:::
+
+
+::: {#answerN .callout-caution icon=false title='Answer' collapse="true"}
+{{< include ./answer_test_raises.qmd >}}
+:::
+
+
+ 
+## Doctests
+
+If you remember from when we were documenting our `add_arrays` function, we had a small section which gave the reader an example of how to use the function:
+
+```
+Examples:
+    >>> add_arrays([1, 4, 5], [4, 3, 5])
+    [5, 7, 10]
+```
+
+Since this is valid Python code, we can ask pytest to run this code and check that the output we claimed would be returned is correct. If we pass `--doctest-modules` to the `pytest` command, it will search `.py` files for docstrings with example blocks and run them:
+
+
+```python
+!COLUMNS=60 pytest -v --doctest-modules
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 4 items                                          [0m
+    
+    arrays.py::arrays.add_arrays [32mPASSED[0m[32m                  [ 25%][0m
+    test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 50%][0m
+    test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [ 75%][0m
+    test_arrays.py::test_add_arrays_error [32mPASSED[0m[32m         [100%][0m
+    
+    [32m==================== [32m[1m4 passed[0m[32m in 0.18s[0m[32m =====================[0m
+
+
+We see here the `arrays.py::arrays.add_arrays` test which has passed. If you get a warning about deprecation then ignore it, this is from a third-party module which is leaking through.
+
+Doctests are a really valuable thing to have in your test suite as they ensure that any examples that you are giving work as expected. It's not uncommon for the code to change and for the documentation to be left behind and being able to automatically check all your examples avoids this.
+
+::: {#exampleN .callout-note icon=false title='Exercise'}
+See what happens when you break your doctest and run `pytest` again.
+:::
+
+
+## Running specific tests
+
+As you increase the number of tests you will come across situations where you only want to run a particular test. To do this, you follow pass the name of the test, as printed by `pytest -v` as an argument to `pytest`. So, if we want to run all tests in `test_arrays.py` we do:
+
+
+```python
+!COLUMNS=60 pytest -v test_arrays.py
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 3 items                                          [0m
+    
+    test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 33%][0m
+    test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [ 66%][0m
+    test_arrays.py::test_add_arrays_error [32mPASSED[0m[32m         [100%][0m
+    
+    [32m==================== [32m[1m3 passed[0m[32m in 0.01s[0m[32m =====================[0m
+
+
+Or, if we want to specifically run the `test_add_arrays` test:
+
+
+```python
+!COLUMNS=60 pytest -v test_arrays.py::test_add_arrays
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 2 items                                          [0m
+    
+    test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 50%][0m
+    test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [100%][0m
+    
+    [32m==================== [32m[1m2 passed[0m[32m in 0.01s[0m[32m =====================[0m
+
+
+Or, if we want to run one test specifically:
+
+
+```python
+!COLUMNS=60 pytest -v "test_arrays.py::test_add_arrays[a0-b0-expect0]"
+```
+
+    [1m=================== test session starts ====================[0m
+    platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+    cachedir: .pytest_cache
+    rootdir: /home/matt/projects/courses/software_engineering_best_practices
+    plugins: requests-mock-1.8.0
+    collected 1 item                                           [0m
+    
+    test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [100%][0m
+    
+    [32m==================== [32m[1m1 passed[0m[32m in 0.01s[0m[32m =====================[0m
+
+
+Take a look at the output of `pytest -h` for more options. For example, you can tell `pytest` to only run the tests that failed on the last run with `pytest --last-failed`.
+
+
+
+## Testing during development
+
+When developing code I recommend starting your day by running the test suite. This gives you confidence in the code before you start playing around with it. Then after each set of changes, run the tests again to make sure that you have not broken anything.
+
+As you add new feature and functions to your code, add tests for them straight away. Doing this while the code logic is fresh in your mind will make the test writing much easier. Even better is to write the tests for the code directly alongside the new function. This gives you a structured way of checking your function while you work on it. You're likely doing manual testing of your code as you write it anyway so why not automate it so that once you're finished you've improved your test suite for free!
+
+Some people go a step further and follow a process called *test-driven development* where the first thing you do is write the docstring for the function, describing what the function will take as arguments and what it will return. Once you know that, you can write a test which will, in principle, pass if the function does as described. Only then will they go ahead and write the body of the function and once the test passes, their job is done.
+
+These techniques are part of a spectrum so find the place on it which makes you the most productive in the long-term. When I started programming I never wrote tests but as I've progressed I've found that they make writing correct code much easier and I couldn't write software without them. You will likely find a progression towards a more structured approach over time.
+
+You don't need to worry over covering every single line of code with tests. If you have zero tests then you have effectively zero confidence that your code works. As soon as you add a single one, your confidence starts growing. The more you add, the safer you are. There's no magic number of tests.
+
+
+
+## Automated tests
+
+We will not cover it in this course but once you have a good test suite and if your source code is hosted on a public Git website then you can make it so that the tests of your code are automatically run on every change. As long as you commit your `test_*.py` to Git files then with a few lines of config you are able to make it run your tests for you. This is especially useful once you are collaborating with other people as the atuomated tests will give you confidence that the new feature your colleage is adding has not broken the code you wrote last week for example.
