@@ -507,7 +507,7 @@ Answer
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_decode(message, output):</span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> decode(message) <span class="op">==</span> output</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>Overwriting test_morse.py</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v <span class="op">--</span>doctest<span class="op">-</span>modules morse.py test_morse.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v <span class="op">--</span>doctest<span class="op">-</span>modules morse.py test_morse.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
@@ -672,7 +672,7 @@ Answer
 <span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
 <span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        encode(message)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>Overwriting test_morse.py</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v <span class="op">--</span>doctest<span class="op">-</span>modules morse.py test_morse.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v <span class="op">--</span>doctest<span class="op">-</span>modules morse.py test_morse.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.2, py-1.9.0, pluggy-0.13.1 -- /home/matt/projects/courses/software_engineering_best_practices/venv/bin/python3
 cachedir: .pytest_cache
@@ -852,7 +852,7 @@ When we run these tests with `pytest` we see that there are some passes and some
 
 
 ```python
-COLUMNS=60 pytest -v test_rot13.py
+pytest -v test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -1010,7 +1010,7 @@ def test_encode_spaces_error():
 
 
 ```python
-COLUMNS=60 pytest -v --doctest-modules morse.py rot13.py test_morse.py test_rot13.py
+pytest -v --doctest-modules morse.py rot13.py test_morse.py test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -1238,7 +1238,7 @@ def test_roundtrip(message):
 
 
 ```python
-COLUMNS=60 pytest -v morse.py rot13.py test_morse.py test_rot13.py
+pytest -v morse.py rot13.py test_morse.py test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -1303,7 +1303,7 @@ def test_roundtrip(message):
 
 
 ```python
-COLUMNS=60 pytest -v morse.py rot13.py test_morse.py test_rot13.py
+pytest -v morse.py rot13.py test_morse.py test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m

@@ -396,7 +396,7 @@ command not found: pytest
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>And in the Terminal, run <code>pytest</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
 rootdir: /home/matt/projects/courses/software_engineering_best_practices
@@ -421,7 +421,7 @@ test_arrays.py [32m.[0m[32m                                     [100%][0m
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When we run this test with <code>pytest</code> it should tell us that the test is indeed failing:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
 rootdir: /home/matt/projects/courses/software_engineering_best_practices
@@ -500,7 +500,7 @@ Exercise
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When we run <code>pytest</code> we can optionally pass the <code>-v</code> flag which puts it in <em>verbose</em> mode. This will print out the tests being run, one per line which I find a more useful view most of the time:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
@@ -573,7 +573,7 @@ Decorators
 <li><code>a=[1, 2, 3]</code>, <code>b=[4, 5, 6]</code>, <code>expect=[5, 7, 9]</code></li>
 <li><code>a=[-1, -5, -3]</code>, <code>b=[-4, -3, 0]</code>, <code>expect=[-5, -8, -3]</code></li>
 </ol>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
@@ -651,7 +651,7 @@ Answer
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
 rootdir: /home/matt/projects/courses/software_engineering_best_practices
@@ -730,7 +730,7 @@ test_arrays.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                    
 <span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>]</span>
 <span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
 <span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> add_arrays(a, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
@@ -813,7 +813,7 @@ Answer
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>]</span>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
 <span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> add_arrays(a, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
 rootdir: /home/matt/projects/courses/software_engineering_best_practices
@@ -839,7 +839,7 @@ test_arrays.py [32m.[0m[32m                                     [100%][0m
 <span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>]</span>
 <span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
 <span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> add_arrays(a, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
 rootdir: /home/matt/projects/courses/software_engineering_best_practices
@@ -860,7 +860,7 @@ test_arrays.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                    
     &gt;&gt;&gt; add_arrays([1, 4, 5], [4, 3, 5])
     [5, 7, 10]</code></pre>
 <p>Since this is valid Python code, we can ask pytest to run this code and check that the output we claimed would be returned is correct. If we pass <code>--doctest-modules</code> to the <code>pytest</code> command, it will search <code>.py</code> files for docstrings with example blocks and run them:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v <span class="op">--</span>doctest<span class="op">-</span>modules</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v <span class="op">--</span>doctest<span class="op">-</span>modules</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
@@ -893,7 +893,7 @@ Exercise
 <section id="running-specific-tests" class="level3">
 <h3 class="anchored" data-anchor-id="running-specific-tests">Running specific tests</h3>
 <p>As you increase the number of tests you will come across situations where you only want to run a particular test. To do this, you follow pass the name of the test, as printed by <code>pytest -v</code> as an argument to <code>pytest</code>. So, if we want to run all tests in <code>test_arrays.py</code> we do:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
@@ -907,7 +907,7 @@ test_arrays.py::test_add_arrays_error [32mPASSED[0m[32m         [100%][0m
 
 [32m==================== [32m[1m3 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
 <p>Or, if we want to specifically run the <code>test_add_arrays</code> test:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v test_arrays.py::test_add_arrays</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v test_arrays.py::test_add_arrays</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
@@ -920,7 +920,7 @@ test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [100%][0m
 
 [32m==================== [32m[1m2 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
 <p>Or, if we want to run one test specifically:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>COLUMNS<span class="op">=</span><span class="dv">60</span> pytest <span class="op">-</span>v <span class="st">"test_arrays.py::test_add_arrays[a0-b0-expect0]"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v <span class="st">"test_arrays.py::test_add_arrays[a0-b0-expect0]"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>[1m=================== test session starts ====================[0m
 platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
 cachedir: .pytest_cache
