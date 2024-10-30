@@ -297,4 +297,4 @@ It's always worth writing some documentation for each of your functions but you 
 
 ## Generating documentation web pages
 
-As well as viewing your documentation in the Python Console, it's possible to automatically create web pages to share your documentation. This is not a necessary part of this course but if you are interested later, have a look at the [appendix on the tool Sphinx](./appendix_sphinx.md).
+As well as viewing your documentation in the Python Console, it's possible to automatically create web pages to share your documentation. This is not a necessary part of this course but if you are interested later, have a look at the [appendix on the tool Sphinx](./appendix_sphinx.qmd).
