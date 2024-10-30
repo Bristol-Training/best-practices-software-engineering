@@ -200,7 +200,7 @@ When we run these tests with `pytest` we see that there are some passes and some
 
 
 ```python
-COLUMNS=60 pytest -v test_rot13.py
+pytest -v test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m

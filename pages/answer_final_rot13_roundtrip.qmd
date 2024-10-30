@@ -180,7 +180,7 @@ def test_roundtrip(message):
 
 
 ```python
-COLUMNS=60 pytest -v morse.py rot13.py test_morse.py test_rot13.py
+pytest -v morse.py rot13.py test_morse.py test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -245,7 +245,7 @@ def test_roundtrip(message):
 
 
 ```python
-COLUMNS=60 pytest -v morse.py rot13.py test_morse.py test_rot13.py
+pytest -v morse.py rot13.py test_morse.py test_rot13.py
 ```
 
     [1m=================== test session starts ====================[0m

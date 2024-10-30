@@ -203,7 +203,7 @@ And in the Terminal, run `pytest`:
 
 
 ```python
-COLUMNS=60 pytest
+pytest
 ```
 
     [1m=================== test session starts ====================[0m
@@ -244,7 +244,7 @@ When we run this test with `pytest` it should tell us that the test is indeed fa
 
 
 ```python
-COLUMNS=60 pytest
+pytest
 ```
 
     [1m=================== test session starts ====================[0m
@@ -337,7 +337,7 @@ When we run `pytest` we can optionally pass the `-v` flag which puts it in *verb
 
 
 ```python
-COLUMNS=60 pytest -v
+pytest -v
 ```
 
     [1m=================== test session starts ====================[0m
@@ -426,7 +426,7 @@ In this case, the test will be run twice. Once with each of the following values
 
 
 ```python
-COLUMNS=60 pytest -v
+pytest -v
 ```
 
     [1m=================== test session starts ====================[0m
@@ -545,7 +545,7 @@ def test_add_arrays_error():
 
 
 ```python
-COLUMNS=60 pytest -v
+pytest -v
 ```
 
     [1m=================== test session starts ====================[0m
@@ -589,7 +589,7 @@ Since this is valid Python code, we can ask pytest to run this code and check th
 
 
 ```python
-COLUMNS=60 pytest -v --doctest-modules
+pytest -v --doctest-modules
 ```
 
     [1m=================== test session starts ====================[0m
@@ -622,7 +622,7 @@ As you increase the number of tests you will come across situations where you on
 
 
 ```python
-COLUMNS=60 pytest -v test_arrays.py
+pytest -v test_arrays.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -643,7 +643,7 @@ Or, if we want to specifically run the `test_add_arrays` test:
 
 
 ```python
-COLUMNS=60 pytest -v test_arrays.py::test_add_arrays
+pytest -v test_arrays.py::test_add_arrays
 ```
 
     [1m=================== test session starts ====================[0m
@@ -663,7 +663,7 @@ Or, if we want to run one test specifically:
 
 
 ```python
-COLUMNS=60 pytest -v "test_arrays.py::test_add_arrays[a0-b0-expect0]"
+pytest -v "test_arrays.py::test_add_arrays[a0-b0-expect0]"
 ```
 
     [1m=================== test session starts ====================[0m

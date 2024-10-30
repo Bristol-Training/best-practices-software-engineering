@@ -121,7 +121,7 @@ When we run the test suite, pytest will automatically run the `pair_of_lists` fu
 
 
 ```python
-COLUMNS=60 pytest -v test_arrays.py
+pytest -v test_arrays.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -189,7 +189,7 @@ def test_word_counts():
 
 
 ```python
-COLUMNS=60 pytest -v test_books.py
+pytest -v test_books.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -239,7 +239,7 @@ def test_word_counts(word, count):
 
 
 ```python
-COLUMNS=60 pytest -v test_books.py
+pytest -v test_books.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -300,7 +300,7 @@ def test_word_counts(long_book, word, count):
 
 
 ```python
-COLUMNS=60 pytest -v test_books.py
+pytest -v test_books.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -360,7 +360,7 @@ def test_word_counts(long_book, word, count):
 
 
 ```python
-COLUMNS=60 pytest -v test_books.py
+pytest -v test_books.py
 ```
 
     [1m=================== test session starts ====================[0m

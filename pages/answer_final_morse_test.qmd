@@ -104,7 +104,7 @@ def test_decode(message, output):
 
 
 ```python
-COLUMNS=60 pytest -v --doctest-modules morse.py test_morse.py
+pytest -v --doctest-modules morse.py test_morse.py
 ```
 
     [1m=================== test session starts ====================[0m

@@ -20,7 +20,7 @@ The way that we will be setting up the space is to have a text editor on the lef
 
 In the launcher tab, scoll down to the "Text File" entry and click that. It will turn the editor into a text editor. Then go to File → New and select "Terminal". It will now have two tabs inside the interface, one labelled "untitled.txt" and the other labelled "Terminal 1":
 
-![](../assets/jupyterlab2.png "JupyterLab")
+![](../assets/jupyterlab2.png "JupyterLab") 
 
 The contents of the Terminal tab will likely be a little different on your computer, compared to what is shown in thise images but that is ok.
 

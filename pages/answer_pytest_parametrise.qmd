@@ -51,7 +51,7 @@ def test_add_arrays(a, b, expect):
 
 
 ```python
-COLUMNS=60 pytest test_arrays.py
+pytest test_arrays.py
 ```
 
     [1m=================== test session starts ====================[0m

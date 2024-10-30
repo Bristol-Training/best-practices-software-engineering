@@ -53,7 +53,7 @@ def test_add_arrays_error():
 
 
 ```python
-COLUMNS=60 pytest test_arrays.py
+pytest test_arrays.py
 ```
 
     [1m=================== test session starts ====================[0m
@@ -91,7 +91,7 @@ def test_add_arrays_error(a, b):
 
 
 ```python
-COLUMNS=60 pytest test_arrays.py
+pytest test_arrays.py
 ```
 
     [1m=================== test session starts ====================[0m
