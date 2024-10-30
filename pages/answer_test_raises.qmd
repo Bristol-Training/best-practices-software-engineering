@@ -81,8 +81,6 @@ from arrays import add_arrays
     ([4], []),
 ])
 def test_add_arrays_error(a, b):
-    a = [1, 2, 3]
-    b = [4, 5]
     with pytest.raises(ValueError):
         output = add_arrays(a, b)
 ```
