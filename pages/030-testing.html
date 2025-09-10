@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Testing – Best Practices in Software Engineering</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pages/040-testing-data.html" rel="next">
+<link href="../pages/020-documentation.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-9582434199d49cc9e91654cdeeb4866b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-01b434cf95e323acf67b4f22ec0acf16.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/030-testing.html">Testing</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/UoB_RGB_24.png" alt="University of Bristol logo" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Best Practices in Software Engineering</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/001-workspace-setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workspace setup</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/010-good-software-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tenets of good software</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/020-documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/030-testing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Testing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/040-testing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Input data for tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/050-licensing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Licensing your code</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/070-worksheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Worksheet</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/980-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/990-contributors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contributors</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#asserting" id="toc-asserting" class="nav-link active" data-scroll-target="#asserting">Asserting</a></li>
+  <li><a href="#pytest" id="toc-pytest" class="nav-link" data-scroll-target="#pytest">pytest</a></li>
+  <li><a href="#avoid-repeating-ourselves" id="toc-avoid-repeating-ourselves" class="nav-link" data-scroll-target="#avoid-repeating-ourselves">Avoid repeating ourselves</a></li>
+  <li><a href="#failing-correctly" id="toc-failing-correctly" class="nav-link" data-scroll-target="#failing-correctly">Failing correctly</a></li>
+  <li><a href="#doctests" id="toc-doctests" class="nav-link" data-scroll-target="#doctests">Doctests</a></li>
+  <li><a href="#running-specific-tests" id="toc-running-specific-tests" class="nav-link" data-scroll-target="#running-specific-tests">Running specific tests</a></li>
+  <li><a href="#testing-during-development" id="toc-testing-during-development" class="nav-link" data-scroll-target="#testing-during-development">Testing during development</a></li>
+  <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/uob-training/best-practices-software-engineering/edit/main/pages/030-testing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/uob-training/best-practices-software-engineering/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Testing</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Testing is extremely important. Without testing, you cannot be sure that your code is doing what you think. Testing is an integral part of software development, and where possible should be done <em>while</em> you are writing code, not after the code has been written.</p>
+<p>No doubt so far, you have been manually checking that your code does the right thing. Perhaps you are running your code over a particular input file and making sure that you get a correct-looking plot out at the end? Or maybe running it with a few known inputs and checking that you got what you got last time? This is a start but how can you be sure that there’s not a subtle bug that means that the output is incorrect? And if there <em>is</em> a problem, how will you be able to work out exactly which line of code it causing it?</p>
+<p>In order to be confident that our code it giving a correct output, a <em>test suite</em> is useful which provides a set of known inputs and checks that the code matches a set of known, expected outputs. To make it easier to locate where a bug is occuring, it’s a good idea to make each individual test run over as small an amount of code as possible so that if <em>that</em> test fails, you know where to look for the problem. In Python this “small unit of code” is usually a function.</p>
+<p>Let’s get started by making sure that our <code>add_arrays</code> function matches the outputs we expect. As a reminder, this is what the file <code>arrays.py</code> looks like:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">This module contains functions for manipulating and combining Python lists.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_arrays(x, y):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    This function adds together each element of the two passed lists.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">        x (list): The first list to add</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">        y (list): The second list to add</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">        list: the pairwise sums of ``x`` and ``y``.</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    Examples:</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">        &gt;&gt;&gt; add_arrays([1, 4, 5], [4, 3, 5])</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">        [5, 7, 10]</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> []</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x_, y_ <span class="kw">in</span> <span class="bu">zip</span>(x, y):</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        z.append(x_ <span class="op">+</span> y_)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Since the name of the module we want to test is <code>arrays</code>, let’s make a file called <code>test_arrays.py</code> which contains the following:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays():</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    expect <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> output <span class="op">==</span> expect:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"OK"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"BROKEN"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>test_add_arrays()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This script defines a function called <code>test_add_arrays</code> which defines some known inputs (<code>a</code> and <code>b</code>) and a known, matching output (<code>expect</code>). It passes them to the function <code>add_arrays</code> and compares the output to <code>expected</code>. It will either print <code>OK</code> or <code>BROKEN</code> depending on whether it’s working or not. Finally, we explicitly call the test function.</p>
+<p>When we run the script in the Terminal, we see it output <code>OK</code>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal/Command Prompt</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" data-filename="Terminal/Command Prompt"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>OK</code></pre>
+<div id="exampleN" class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Break the test by changing either <code>a</code>, <code>b</code> or <code>expected</code> and rerun the test script. Make sure that it prints <code>BROKEN</code> in this case. Change it back to a working state once you’ve done this.</p>
+</div>
+</div>
+<section id="asserting" class="level3">
+<h3 class="anchored" data-anchor-id="asserting">Asserting</h3>
+<p>The method used here works and runs the code correctly but it doesn’t give very useful output. If we had five test functions in our file and three of them were failing we’d see something like:</p>
+<pre><code>OK
+BROKEN
+OK
+BROKEN
+BROKEN</code></pre>
+<p>We’d then have to cross-check back to our code to see which tests the <code>BROKEN</code>s referred to.</p>
+<p>To be able to automatically relate the output of the failing test to the place where your test failed, you can use an <code>assert</code> statement.</p>
+<p>An <code>assert</code> statement is followed by something which is either <em>truthy</em> or <em>falsy</em>. A falsy expression is something which, when converted to a <code>bool</code> gives <code>False</code>. This includes empty lists, the number <code>0</code> and <code>None</code>; everything else is considered truthy. The full list is available in <a href="https://docs.python.org/3/library/stdtypes.html#truth-value-testing">the documentation</a>.</p>
+<p>If it is truthy then nothing happens but if it is falsy then an exception is raised:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>---------------------------------------------------------------------------
+
+AssertionError                            Traceback (most recent call last)
+
+&lt;ipython-input-6-05598cd61862&gt; in &lt;module&gt;
+----&gt; 1 assert 5 == 6
+
+
+AssertionError: </code></pre>
+<p>We can now use this <code>assert</code> statement in place of the <code>if</code>/<code>else</code> block:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays():</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    expect <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>test_add_arrays()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now when we run the test script we get nothing printed on success:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal/Command Prompt</strong></pre>
+</div>
+<div class="sourceCode" id="cb10" data-filename="Terminal/Command Prompt"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>but on a failure we get an error printed like:</p>
+<pre><code>Traceback (most recent call last):
+  File "test_arrays.py", line 13, in &lt;module&gt;
+    test_add_arrays()
+  File "test_arrays.py", line 11, in test_add_arrays
+    assert output == expect
+AssertionError</code></pre>
+<p>Which, like all exception messages gives us the location in the file at which the error occurred. This has the avantage that if we had many test functions being run it would tell us which one failed and on which line.</p>
+<p>The downside of using an <code>assert</code> like this is that as soon as one test fails, the whole script will halt and you’ll only be informed of that one test.</p>
+</section>
+<section id="pytest" class="level3">
+<h3 class="anchored" data-anchor-id="pytest">pytest</h3>
+<p>There’s a few things that we’ve been doing so far that could be improved. Firstly, for every test function that we write we then have to explicitly call it at the bottom of the test script like <code>test_add_arrays()</code>. This is error-prone as we might write a test function and forget to call it and then we would miss any errors it would catch.</p>
+<p>Secondly, we want nice, useful output from our test functions. Something better than the nothing/exception that a plain <code>assert</code> gives us. It would be nice to get a green <code>PASSED</code> for the good tests and a red <code>FAILED</code> for the bad ones alongside the name of the test in question.</p>
+<p>Finally, we want to make sure that all tests are run even if a test early in the process fails.</p>
+<p>Luckily, there is tool called <em>pytest</em> which can give us all of these things. It will work on our test script almost exactly as written with only one change needed.</p>
+<div id="keypointsN" class="callout callout-style-default callout-tip no-icon callout-titled" title="command not found: pytest">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+command not found: pytest
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you don’t have <code>pytest</code> installed, try calling on the terminal <code>pip install -U pytest</code>.</p>
+</div>
+</div>
+<p>Remove the call to <code>test_add_arrays()</code> on the last line of the file:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays():</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    expect <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And in the Terminal, run <code>pytest</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 1 item                                           [0m
+
+test_arrays.py [32m.[0m[32m                                     [100%][0m
+
+[32m==================== [32m[1m1 passed[0m[32m in 0.02s[0m[32m =====================[0m</code></pre>
+<p>Pytest will do two stages. First it will try to locate all the test functions that it can find and then it will run each of them in turn, reporting the results.</p>
+<p>Here you can see that it’s found that the file <code>test_arrays.py</code> contains a single test function. The green dot next to the name of the file signifies the passing test. It then prints a summary at the end saying “1 passed”.</p>
+<p>The way that <code>pytest</code> works is that it looks for files which are called <code>test_*.py</code> or <code>*_test.py</code> and look inside those for functions whose names begin with <code>test</code>. It will then run those functions one at a time, reporting the results of each in turn.</p>
+<p>To see what it looks like when you have a failing test, let’s deliberately break the test code by giving a wrong expected result:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays():</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    expect <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">999</span>]  <span class="co"># Changed this to break the test</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When we run this test with <code>pytest</code> it should tell us that the test is indeed failing:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 1 item                                           [0m
+
+test_arrays.py [31mF[0m[31m                                     [100%][0m
+
+========================= FAILURES =========================
+[31m[1m_____________________ test_add_arrays ______________________[0m
+
+    [94mdef[39;49;00m [92mtest_add_arrays[39;49;00m():
+        a = [[94m1[39;49;00m, [94m2[39;49;00m, [94m3[39;49;00m]
+        b = [[94m4[39;49;00m, [94m5[39;49;00m, [94m6[39;49;00m]
+        expect = [[94m5[39;49;00m, [94m7[39;49;00m, [94m999[39;49;00m]  [90m# Changed this to break the test[39;49;00m
+    
+        output = add_arrays(a, b)
+    
+&gt;       [94massert[39;49;00m output == expect
+[1m[31mE       assert [5, 7, 9] == [5, 7, 999][0m
+[1m[31mE         At index 2 diff: 9 != 999[0m
+[1m[31mE         Use -v to get the full diff[0m
+
+[1m[31mtest_arrays.py[0m:11: AssertionError
+================= short test summary info ==================
+FAILED test_arrays.py::test_add_arrays - assert [5, 7, 9]...
+[31m==================== [31m[1m1 failed[0m[31m in 0.10s[0m[31m =====================[0m</code></pre>
+<p>The output from this is better than we saw with the plain <code>assert</code>. It’s printing the full context of the contents of the test function with the line where the <code>assert</code> is failing being marked with a <code>&gt;</code>. It then gives an expanded explanation of why the assert failed. Before we just got <code>AssertionError</code> but now it prints out the contents of <code>output</code> and <code>expect</code> and tells us that at index 2 of the list it’s finding a <code>9</code> where we told it to expect a <code>999</code>.</p>
+<p>Before continuing, make sure that you change the file back to its previous contents by changing that <code>999</code> back to a <code>9</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays():</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    expect <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]  <span class="co"># Changed this back to 9</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="exampleN" class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure you can run the test as it is written here. See what happens when you make the test fail.</p>
+</div>
+</div>
+</section>
+<section id="avoid-repeating-ourselves" class="level3">
+<h3 class="anchored" data-anchor-id="avoid-repeating-ourselves">Avoid repeating ourselves</h3>
+<p>Having a single test for a function is already infinitely better than having none, but one test only gives you so much confidence. The real power of a test suite is being able to test your functions under lots of different conditions.</p>
+<p>Lets add a second test to check a different set of inputs and outputs to the <code>add_arrays</code> function and check that it passes:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays1():</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    expect <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays2():</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">3</span>]</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>]</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    expect <span class="op">=</span> [<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">3</span>]</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When we run <code>pytest</code> we can optionally pass the <code>-v</code> flag which puts it in <em>verbose</em> mode. This will print out the tests being run, one per line which I find a more useful view most of the time:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 2 items                                          [0m
+
+test_arrays.py::test_add_arrays1 [32mPASSED[0m[32m              [ 50%][0m
+test_arrays.py::test_add_arrays2 [32mPASSED[0m[32m              [100%][0m
+
+[32m==================== [32m[1m2 passed[0m[32m in 0.07s[0m[32m =====================[0m</code></pre>
+<p>We see both tests being run and passing. This will work well but we’ve had to repeat ourselves almost entirely in each test function. The only difference between the two functions is the inputs and outputs under test. Usually in this case in a normal Python function you would take these things as arguments and we can do the same thing here.</p>
+<p>The actual logic of the function is the following:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays(a, b, expect):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We then just need a way of passing the data we want to check into this function. Since we’re not explicitly calling this function ourselves, we need a way to tell pytest that it should pass in certain arguments. For this, pytest provides a feature called <em>parametrisation</em>. We label our function with a <em>decoration</em> which allows pytest to run it mutliple times with different data.</p>
+<div id="keypointsN" class="callout callout-style-default callout-tip no-icon callout-titled" title="Decorators">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Decorators
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Python decorators are functions that modify or enhance other functions without explicitly changing their source code. They take another function as an argument, add some functionality, and return the modified function. The key aspects are:</p>
+<ol type="1">
+<li>They are defined using the <code>@decorator_name</code> syntax placed above a function definition.</li>
+<li>Decorators wrap the original function, allowing you to execute code before and after the wrapped function.</li>
+<li>They can modify the input arguments, return value, or behavior of the decorated function.</li>
+<li>Multiple decorators can be applied to a single function, creating a chain of modifications.</li>
+</ol>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> uppercase_decorator(func):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> wrapper():</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> func()</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> result.upper()</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> wrapper</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="at">@uppercase_decorator</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> greet():</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"hello, world!"</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(greet())  <span class="co"># Output: HELLO, WORLD!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The above <code>@uppercase_decorator</code> syntax is equivalent to <code>greet = uppercase_decorator(greet)</code>.</p>
+</div>
+</div>
+<p>To use this feature we must import the <code>pytest</code> module and use the <code>pytest.mark.parametrize</code> decorator like the following:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"a, b, expect"</span>, [</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    ([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],    [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>],   [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    ([<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>], [<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">3</span>]),</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays(a, b, expect):</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>parametrize</code> decorator takes two arguments:</p>
+<ol type="1">
+<li>a string containing the names of the parameters you want to pass in (<code>"a, b, expect"</code>)</li>
+<li>a list containing the values of the arguments you want to pass in</li>
+</ol>
+<p>In this case, the test will be run twice. Once with each of the following values:</p>
+<ol type="1">
+<li><code>a=[1, 2, 3]</code>, <code>b=[4, 5, 6]</code>, <code>expect=[5, 7, 9]</code></li>
+<li><code>a=[-1, -5, -3]</code>, <code>b=[-4, -3, 0]</code>, <code>expect=[-5, -8, -3]</code></li>
+</ol>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 2 items                                          [0m
+
+test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 50%][0m
+test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [100%][0m
+
+[32m==================== [32m[1m2 passed[0m[32m in 0.03s[0m[32m =====================[0m</code></pre>
+<p>Running <code>pytest</code> we see that both tests have the same name (<code>test_arrays.py::test_add_arrays</code>) but each parametrisation is differentiated with some square brackets.</p>
+<div id="exampleN" class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add some more parameters sets to the <code>test_add_arrays</code> function. Try to think about corner-cases that might make the function fail. It’s your job as the tester to try to “break” the code.</p>
+</div>
+</div>
+<div id="answerN" class="callout callout-style-default callout-caution no-icon callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">This module contains functions for manipulating and combining Python lists.</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_arrays(x, y):</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">    This function adds together each element of the two passed lists.</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">        x (list): The first list to add</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">        y (list): The second list to add</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">        list: the pairwise sums of ``x`` and ``y``.</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Examples:</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">        &gt;&gt;&gt; add_arrays([1, 4, 5], [4, 3, 5])</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co">        [5, 7, 10]</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> []</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x_, y_ <span class="kw">in</span> <span class="bu">zip</span>(x, y):</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        z.append(x_ <span class="op">+</span> y_)</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"a, b, expect"</span>, [</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    ([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]),</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    ([<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>], [<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">3</span>]),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    ([<span class="dv">41</span>, <span class="dv">0</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">76</span>, <span class="dv">32</span>], [<span class="dv">45</span>, <span class="dv">76</span>, <span class="dv">35</span>]),</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    ([], [], []),</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays(a, b, expect):</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: attrib-0.1.3, requests-mock-1.8.0, cov-2.10.1, hypothesis-5.24.2
+collected 4 items                                          [0m
+
+test_arrays.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                                  [100%][0m
+
+[32m==================== [32m[1m4 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="failing-correctly" class="level3">
+<h3 class="anchored" data-anchor-id="failing-correctly">Failing correctly</h3>
+<p>The interface of a function is made up of the <em>parameters</em> it expects and the values that it <em>returns</em>. If a user of a function knows these things then they are able to use it correctly. This is why we make sure to include this information in the docstring for all our functions.</p>
+<p>The other thing that is part of the interface of a function is any exceptions that are <em>raised</em> by it. If you need a refresher on exceptions and error handling in Python, take a look at <a href="../intermediate_python/Exceptions.html">the chapter on it in the Intermediate Python course</a>.</p>
+<p>To add explicit error handling to our function we need to do two things: 1. add in a conditional <code>raise</code> statement:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(x) <span class="op">!=</span> <span class="bu">len</span>(y):</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Both arrays must have the same length."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li><p>document in the docstring the fact that the function may raise something:</p>
+<pre><code>Raises:
+    ValueError: If the length of the lists ``x`` and ``y`` are different.</code></pre></li>
+</ol>
+<p>Let’s add these to <code>arrays.py</code>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">This module contains functions for manipulating and combining Python lists.</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_arrays(x, y):</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">    This function adds together each element of the two passed lists.</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co">        x (list): The first list to add</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co">        y (list): The second list to add</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="co">        list: the pairwise sums of ``x`` and ``y``.</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="co">    Raises:</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="co">        ValueError: If the length of the lists ``x`` and ``y`` are different.</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Examples:</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="co">        &gt;&gt;&gt; add_arrays([1, 4, 5], [4, 3, 5])</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a><span class="co">        [5, 7, 10]</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(x) <span class="op">!=</span> <span class="bu">len</span>(y):</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Both arrays must have the same length."</span>)</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> []</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x_, y_ <span class="kw">in</span> <span class="bu">zip</span>(x, y):</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>        z.append(x_ <span class="op">+</span> y_)</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then test that the function correctly raises the exception when passed appropriate data. Inside a pytest function we can require that a specific exception is raised by using <a href="https://docs.pytest.org/en/latest/reference.html#pytest-raises"><code>pytest.raises</code></a> in a <code>with</code> block. <code>pytest.raises</code> takes as an argument the type of an exception and if the block ends without that exception having been rasied, will fail the test.</p>
+<p>It may seem strange that we’re testing-for and <em>requiring</em> that the function raises an error but it’s important that if we’ve told our users that the code will produce a certain error in specific circumstances that it does indeed do as we promise.</p>
+<p>In our code we add a new test called <code>test_add_arrays_error</code> which does the check we require:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"a, b, expect"</span>, [</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    ([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],    [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>],   [<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    ([<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>], [<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">3</span>]),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays(a, b, expect):</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> add_arrays(a, b)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> output <span class="op">==</span> expect</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays_error():</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>]</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> add_arrays(a, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 3 items                                          [0m
+
+test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 33%][0m
+test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [ 66%][0m
+test_arrays.py::test_add_arrays_error [32mPASSED[0m[32m         [100%][0m
+
+[32m==================== [32m[1m3 passed[0m[32m in 0.03s[0m[32m =====================[0m</code></pre>
+<div id="exampleN" class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Make sure you can run the <code>test_add_arrays_error</code> test and that it passes.</li>
+<li>If you have time, try parametrising the <code>test_add_arrays_error</code> test fuction.</li>
+</ul>
+</div>
+</div>
+<div id="answerN" class="callout callout-style-default callout-caution no-icon callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co">This module contains functions for manipulating and combining Python lists.</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_arrays(x, y):</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co">    This function adds together each element of the two passed lists.</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">        x (list): The first list to add</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">        y (list): The second list to add</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="co">        list: the pairwise sums of ``x`` and ``y``.</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Raises:</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co">        ValueError: If the length of the lists ``x`` and ``y`` are different.</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co">    Examples:</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co">        &gt;&gt;&gt; add_arrays([1, 4, 5], [4, 3, 5])</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="co">        [5, 7, 10]</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(x) <span class="op">!=</span> <span class="bu">len</span>(y):</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Both arrays must have the same length."</span>)</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> []</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x_, y_ <span class="kw">in</span> <span class="bu">zip</span>(x, y):</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>        z.append(x_ <span class="op">+</span> y_)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays_error():</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">5</span>]</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> add_arrays(a, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: attrib-0.1.3, requests-mock-1.8.0, cov-2.10.1, hypothesis-5.24.2
+collected 1 item                                           [0m
+
+test_arrays.py [32m.[0m[32m                                     [100%][0m
+
+[32m==================== [32m[1m1 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arrays <span class="im">import</span> add_arrays</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"a, b"</span>, [</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    ([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>]),</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    ([<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]),</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    ([], [<span class="dv">4</span>]),</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    ([<span class="dv">4</span>], []),</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add_arrays_error(a, b):</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> add_arrays(a, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pytest test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: attrib-0.1.3, requests-mock-1.8.0, cov-2.10.1, hypothesis-5.24.2
+collected 4 items                                          [0m
+
+test_arrays.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                                  [100%][0m
+
+[32m==================== [32m[1m4 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="doctests" class="level3">
+<h3 class="anchored" data-anchor-id="doctests">Doctests</h3>
+<p>If you remember from when we were documenting our <code>add_arrays</code> function, we had a small section which gave the reader an example of how to use the function:</p>
+<pre><code>Examples:
+    &gt;&gt;&gt; add_arrays([1, 4, 5], [4, 3, 5])
+    [5, 7, 10]</code></pre>
+<p>Since this is valid Python code, we can ask pytest to run this code and check that the output we claimed would be returned is correct. If we pass <code>--doctest-modules</code> to the <code>pytest</code> command, it will search <code>.py</code> files for docstrings with example blocks and run them:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v <span class="op">--</span>doctest<span class="op">-</span>modules</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 4 items                                          [0m
+
+arrays.py::arrays.add_arrays [32mPASSED[0m[32m                  [ 25%][0m
+test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 50%][0m
+test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [ 75%][0m
+test_arrays.py::test_add_arrays_error [32mPASSED[0m[32m         [100%][0m
+
+[32m==================== [32m[1m4 passed[0m[32m in 0.18s[0m[32m =====================[0m</code></pre>
+<p>We see here the <code>arrays.py::arrays.add_arrays</code> test which has passed. If you get a warning about deprecation then ignore it, this is from a third-party module which is leaking through.</p>
+<p>Doctests are a really valuable thing to have in your test suite as they ensure that any examples that you are giving work as expected. It’s not uncommon for the code to change and for the documentation to be left behind and being able to automatically check all your examples avoids this.</p>
+<div id="exampleN" class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See what happens when you break your doctest and run <code>pytest</code> again.</p>
+</div>
+</div>
+</section>
+<section id="running-specific-tests" class="level3">
+<h3 class="anchored" data-anchor-id="running-specific-tests">Running specific tests</h3>
+<p>As you increase the number of tests you will come across situations where you only want to run a particular test. To do this, you follow pass the name of the test, as printed by <code>pytest -v</code> as an argument to <code>pytest</code>. So, if we want to run all tests in <code>test_arrays.py</code> we do:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v test_arrays.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 3 items                                          [0m
+
+test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 33%][0m
+test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [ 66%][0m
+test_arrays.py::test_add_arrays_error [32mPASSED[0m[32m         [100%][0m
+
+[32m==================== [32m[1m3 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
+<p>Or, if we want to specifically run the <code>test_add_arrays</code> test:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v test_arrays.py::test_add_arrays</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 2 items                                          [0m
+
+test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [ 50%][0m
+test_arrays.py::test_add_arrays[a1-b1-expect1] [32mPASSED[0m[32m [100%][0m
+
+[32m==================== [32m[1m2 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
+<p>Or, if we want to run one test specifically:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pytest <span class="op">-</span>v <span class="st">"test_arrays.py::test_add_arrays[a0-b0-expect0]"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1m=================== test session starts ====================[0m
+platform linux -- Python 3.8.5, pytest-6.0.1, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/matt/projects/courses/software_engineering_best_practices
+plugins: requests-mock-1.8.0
+collected 1 item                                           [0m
+
+test_arrays.py::test_add_arrays[a0-b0-expect0] [32mPASSED[0m[32m [100%][0m
+
+[32m==================== [32m[1m1 passed[0m[32m in 0.01s[0m[32m =====================[0m</code></pre>
+<p>Take a look at the output of <code>pytest -h</code> for more options. For example, you can tell <code>pytest</code> to only run the tests that failed on the last run with <code>pytest --last-failed</code>.</p>
+</section>
+<section id="testing-during-development" class="level3">
+<h3 class="anchored" data-anchor-id="testing-during-development">Testing during development</h3>
+<p>When developing code I recommend starting your day by running the test suite. This gives you confidence in the code before you start playing around with it. Then after each set of changes, run the tests again to make sure that you have not broken anything.</p>
+<p>As you add new feature and functions to your code, add tests for them straight away. Doing this while the code logic is fresh in your mind will make the test writing much easier. Even better is to write the tests for the code directly alongside the new function. This gives you a structured way of checking your function while you work on it. You’re likely doing manual testing of your code as you write it anyway so why not automate it so that once you’re finished you’ve improved your test suite for free!</p>
+<p>Some people go a step further and follow a process called <em>test-driven development</em> where the first thing you do is write the docstring for the function, describing what the function will take as arguments and what it will return. Once you know that, you can write a test which will, in principle, pass if the function does as described. Only then will they go ahead and write the body of the function and once the test passes, their job is done.</p>
+<p>These techniques are part of a spectrum so find the place on it which makes you the most productive in the long-term. When I started programming I never wrote tests but as I’ve progressed I’ve found that they make writing correct code much easier and I couldn’t write software without them. You will likely find a progression towards a more structured approach over time.</p>
+<p>You don’t need to worry over covering every single line of code with tests. If you have zero tests then you have effectively zero confidence that your code works. As soon as you add a single one, your confidence starts growing. The more you add, the safer you are. There’s no magic number of tests.</p>
+</section>
+<section id="automated-tests" class="level3">
+<h3 class="anchored" data-anchor-id="automated-tests">Automated tests</h3>
+<p>We will not cover it in this course but once you have a good test suite and if your source code is hosted on a public Git website then you can make it so that the tests of your code are automatically run on every change. As long as you commit your <code>test_*.py</code> to Git files then with a few lines of config you are able to make it run your tests for you. This is especially useful once you are collaborating with other people as the atuomated tests will give you confidence that the new feature your colleage is adding has not broken the code you wrote last week for example.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../pages/020-documentation.html" class="pagination-link" aria-label="Documentation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Documentation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../pages/040-testing-data.html" class="pagination-link" aria-label="Input data for tests">
+        <span class="nav-page-text">Input data for tests</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://www.bristol.ac.uk/golding/">Jean Golding Institute</a> © <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/uob-training/best-practices-software-engineering/edit/main/pages/030-testing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/uob-training/best-practices-software-engineering/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
