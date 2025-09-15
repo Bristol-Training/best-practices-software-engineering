@@ -27,7 +27,7 @@ website:
 
   page-footer:
     left: "[Jean Golding Institute](https://www.bristol.ac.uk/golding/) © [CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/)"  
-  repo-url: https://github.com/uob-training/best-practices-software-engineering
+  repo-url: https://github.com/bristol-training/best-practices-software-engineering
   repo-actions: [edit, issue]
 
 format:
