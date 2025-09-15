@@ -459,7 +459,7 @@ Add some more parameters sets to the `test_add_arrays` function. Try to think ab
 
 The interface of a function is made up of the *parameters* it expects and the values that it *returns*. If a user of a function knows these things then they are able to use it correctly. This is why we make sure to include this information in the docstring for all our functions.
 
-The other thing that is part of the interface of a function is any exceptions that are *raised* by it. If you need a refresher on exceptions and error handling in Python, take a look at [the chapter on it in the Intermediate Python course](../intermediate_python/Exceptions.html).
+The other thing that is part of the interface of a function is any exceptions that are *raised* by it. If you need a refresher on exceptions and error handling in Python, take a look at [the chapter on it in the Intro to Python 2 course](https://bristol-training.github.io/intro-python-2/pages/040-errors-exceptions.html).
 
 To add explicit error handling to our function we need to do two things:
 1. add in a conditional `raise` statement:
