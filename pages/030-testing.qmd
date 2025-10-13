@@ -179,7 +179,7 @@ Luckily, there is tool called *pytest* which can give us all of these things. It
 
 
 ::: {#keypointsN .callout-tip icon=false title='command not found: pytest'}
-If you don't have `pytest` installed, try calling on the terminal `pip install -U pytest`.
+If you don't have `pytest` installed, try calling on the terminal `uv add pytest` (recommended). Alternatively you can use`pip install -U pytest`.
 :::
 
 
