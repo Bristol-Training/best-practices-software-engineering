@@ -36,6 +36,14 @@ There are lots of possible ways to license your code to make it open source, eac
 
 The choice generally comes down to how *permissive* you want to be. Either you put almost no constraints on what the user of your code can do with it (e.g. the MIT licence) or you can require that for example, any changes they make to your code must be made public and open source or even that any software which uses your code must be made available wholly as open source too (e.g. the GNU GPL).
 
+A few practical issues are often forgotten when people start licensing code:
+
+- Check who actually owns the copyright. If the code includes work from multiple contributors, collaborators, students, or previous projects, you need their permission before publishing under a licence.
+- Make sure the licence is compatible with any third-party libraries or datasets your code depends on. Some licences are not compatible with each other, and some software cannot legally be redistributed under a different licence. This [tool](https://ufal.github.io/public-license-selector/) can help you choose a licence that is compatible with your dependencies.
+- Think beyond code. If your project includes documentation, data, models, scripts, or generated outputs, you may need separate licences or clear statements about what is covered.
+
+In practice, the “right” licence depends on your collaborators, funder or employer and any constraints imposed by software or data you rely on. Discuss these factors early, confirm who owns the relevant materials and what approvals are needed, and record the agreed licence. This helps ensure the project’s legal status is clear from the outset.
+
 ### Apply the licence
 
 Most licences only require that there is a single file in your source code directory called something like `LICENSE` or `LICENSE.txt` which contains the text of the licence. Some licences advise that you should also put a message at the top of every file but [choosealicense.com](https://choosealicense.com) will inform you of the appropriate approach.
@@ -52,4 +60,8 @@ which if you click it takes you to [the license page](https://github.com/pytest-
 
 ## University of Bristol advice
 
-If you are at the University of Bristol then Research & Enterprise Development (RED) provide [some advice on licensing software](../assets/Open%20Source%20Software%20Licensing%20v2018.pdf) along with plenty of good links to other resources. If you have any questions about open-sourcing software you have developed while working at the University then be sure to read that and contact RED. Also, talk to your Research Software Engineering team as they can likely advise on appropriate approaches.
+University of Bristol staff should consult the [Open Research Policy](https://www.bristol.ac.uk/staff/researchers/open-research/open-research-policy/), which provides further guidance on making research outputs openly available.
+
+
+If you have any questions about software you have developed while working at the University contact the [Research and Innovation Services](https://www.bristol.ac.uk/research-innovation-services/). Also, talk to the Jean Golding Research Engineering team as they can likely advise on appropriate approaches.
+
