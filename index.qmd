@@ -10,8 +10,7 @@ For this course we will be focusing on three main topics:
 2. testing
 3. licensing
 
-and discussing why they're important and how to integrate them into your code. To discover these concepts we will be exploring then in Python but the ideas behind what we're doing here apply to all programming languages. You can do documentation and testing in C, C++, R, Fortran, Julia, Go and Rust but each will have their own tools and techniques. Languages which make going these things easy are good languages for doing software development in.
-
+and discussing why they're important and how to integrate them into your code. We will explore these concepts in Python, but the ideas apply to all programming languages. You can do documentation and testing in C, C++, R, Fortran, Julia, Go and Rust, but each has its own tools and techniques. Languages which make these things easy are good languages for software development.
 
 For the purpose of this course we will be using a free tool called JupyterLab which provides you with a local editor and Python terminal in your web browser. Setting up instructions can be found [here](./pages/001-workspace-setup.qmd).
 
@@ -33,13 +32,13 @@ In this documentation, any time that we are seeing a small snippet of Python cod
 print("Hello, Python")
 ```
 
-If the commands are executed by the machine we will see the output of them below enclosed on a vertical purple line:
+If the commands are executed, their output is shown below the code, marked by a vertical purple line:
 
 ```{python}
 print("Hello, Python!")
 ```
 
-By contrast, you will see larger peces of code as scripts with a given name, e.g. `script.py`, in a code block with darker header:
+By contrast, larger pieces of code are shown as scripts with a given name, e.g. `script.py`, in a code block with a darker header:
 
 ```{.python filename="script.py"}
 greeting = "Hello"
@@ -52,7 +51,7 @@ We may ask you to run a script using the `Command Prompt` (Windows) or `Terminal
 python script.py
 ```
 
-**Please note that sometimes we will skip showing the execution of scripts on the Terminal/Command Prompt box, but we will assume you to run the script on your.**
+**Please note that we sometimes skip showing the execution of scripts in the Terminal/Command Prompt box, but you are expected to run the script on your own machine.**
 
 In some cases we will introduce general programming concepts and structures using pseudocode, a high-level, easy-to-read syntax close to natural language. This should not be confused with Python code and cannot be executed on your machine, but it is useful to describe how your code should behave. Here there is an example:
 ```
@@ -64,7 +63,7 @@ FOR EACH sample IN my_study
 ```
 
 
-There are some exercises along this course, and it is important you try to answer them yourself to understand how Python works. Exercises are shown in blue boxes followed by a yellow box that contains the answer of each exercise. We recommend you to try to answer each exercise yourself before looking at the solution. 
+There are some exercises along this course, and it is important that you try to answer them yourself to understand the concepts. Exercises are shown in blue boxes, followed by a yellow box containing the answer. We recommend you attempt each exercise before looking at the solution.
 
 ::: {#exampleN .callout-note icon=false title='Exercise'}
 This is an exercise. You will need to click in the below box to see the answer.
