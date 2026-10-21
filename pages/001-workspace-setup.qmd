@@ -28,5 +28,5 @@ Release the mouse button and you'll end up with the two showing side-by-side:
 
 **Make sure you are in the correct directory**, as per our [setup instructions](https://bristol-training.github.io/data-science-project-setup/).
 
-e're now ready to get started!
+We're now ready to get started!
 

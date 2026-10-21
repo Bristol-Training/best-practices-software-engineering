@@ -27,9 +27,9 @@ flush: whether to forcibly flush the stream.
 Type:      builtin_function_or_method
 ```
 
-This *docstring* as it calls it (for documentation string) is a human-written piece of text which is there to help you, the programmer, know how to use the function.
+This text is called a *docstring* (short for documentation string). It is a piece of text which is there to help you, the programmer, how to use the function.
 
-The `?` syntax is an *iPython*-specific thing but you can use the equivalent `help` function anywhere. If you run:
+The `?` syntax is specific to *IPython*, but the built-in `help` function works anywhere. Running:
 
 
 ```python
@@ -290,6 +290,15 @@ Run the example code from the documentation in the Console. Make sure that you a
 
 
 
+## Other documentation to write
+
+Docstrings document code, but a project also needs:
+
+ - A `README` describing what the project does, how to install it and a minimal usage example
+ - Comments explaining *why* code does something, not *what* it does
+ - A changelog and a licence file
+ - Tutorials or how-to guides for common tasks
+
 
 ## Documentation-driven-development
 
@@ -298,3 +307,9 @@ It's always worth writing some documentation for each of your functions but you 
 ## Generating documentation web pages
 
 As well as viewing your documentation in the Python Console, it's possible to automatically create web pages to share your documentation. This is not a necessary part of this course but if you are interested later, have a look at the [appendix on the tool Sphinx](./appendix_sphinx.qmd).
+
+Other popular tools for building documentation web pages include:
+
+ - [MkDocs](https://www.mkdocs.org/) (with [mkdocstrings](https://mkdocstrings.github.io/) to pull in docstrings): Markdown-based and simple to configure.
+ - [Quarto](https://quarto.org/) (with [quartodoc](https://machow.github.io/quartodoc/)): the tool used to build this course.
+
