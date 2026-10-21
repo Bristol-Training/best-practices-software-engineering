@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-9582434199d49cc9e91654cdeeb4866b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5cc20322f4ee4d4e5815d321a495115e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-41d5aa5e9d5839bd7c7121d2738e745f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -219,6 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#make-your-code-easy-to-use-correctly-and-hard-to-use-incorrectly" id="toc-make-your-code-easy-to-use-correctly-and-hard-to-use-incorrectly" class="nav-link" data-scroll-target="#make-your-code-easy-to-use-correctly-and-hard-to-use-incorrectly">Make your code easy to use correctly and hard to use incorrectly</a></li>
   <li><a href="#the-zen-of-python" id="toc-the-zen-of-python" class="nav-link" data-scroll-target="#the-zen-of-python">The Zen of Python</a></li>
   <li><a href="#testable-code-is-better-code" id="toc-testable-code-is-better-code" class="nav-link" data-scroll-target="#testable-code-is-better-code">Testable code is better code</a></li>
+  <li><a href="#other-principles-worth-considering" id="toc-other-principles-worth-considering" class="nav-link" data-scroll-target="#other-principles-worth-considering">Other principles worth considering</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bristol-training/best-practices-software-engineering/edit/main/pages/010-good-software-principles.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bristol-training/best-practices-software-engineering/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -254,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="make-your-code-easy-to-use-correctly-and-hard-to-use-incorrectly" class="level3">
 <h3 class="anchored" data-anchor-id="make-your-code-easy-to-use-correctly-and-hard-to-use-incorrectly">Make your code easy to use correctly and hard to use incorrectly</h3>
 <p>This is a principle that was <a href="https://doi.org/10.1109/MS.2004.29">coined by Scott Meyers in 2004</a>. The idea being that if you are writing code which will be used by others (functions, classes etc.) or writing user-interfaces (website, apps etc.) then you should endeavour to make the correct use of your product the “easy path”.</p>
-<p>As an example, let’s look at a function which calculated the distance in kilometres between a given latitude/longitude pair and Bristol:</p>
+<p>As an example, let’s look at a function which calculates the distance in kilometres between a given latitude/longitude pair and Bristol:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> sin, cos, sqrt, atan2, radians</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> distance_from_bristol(lon, lat):</span>
@@ -307,7 +308,7 @@ TypeError: distance_from_bristol() takes 0 positional arguments but 2 were given
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>distance_from_bristol(lat<span class="op">=</span>lat_london, lon<span class="op">=</span>lon_london)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>172.03101346881488</code></pre>
 <p>It is now <em>harder to use incorrectly</em>.</p>
-<p>There’s still the issue that it’s very easy to pass in the latitude and longitude in the wrong units. A potential solution to this would be to create a <code>Point</code> class which encode within it whether the units are degree or radians and require users of that class to specify then putting in values or removing them.</p>
+<p>There’s still the issue that it’s very easy to pass in the latitude and longitude in the wrong units. A potential solution to this would be to create a <code>Point</code> class which encodes within it whether the units are degrees or radians, and require users of that class to specify the units when putting values in or taking them out.</p>
 </section>
 <section id="the-zen-of-python" class="level3">
 <h3 class="anchored" data-anchor-id="the-zen-of-python">The Zen of Python</h3>
@@ -336,7 +337,7 @@ If the implementation is hard to explain, it's a bad idea.
 If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!</code></pre>
 <p>Of particular note are:</p>
-<p><strong>Readability counts</strong>. When writing code, don’t just think about how it will be interpreted by the computer, also consider your fellow human. Code will be read many more time than it is written so optimise for understandability.</p>
+<p><strong>Readability counts</strong>. When writing code, don’t just think about how it will be interpreted by the computer, also consider your fellow human. Code will be read many more times than it is written so optimise for understandability.</p>
 <p><strong>Errors should never pass silently</strong>. This is the logic behind Python’s use of exceptions. You can’t ignore an error unless you explicitly decide to. This is in contrast to common techniques in use in languages like C where a function might return a <code>0</code> if it was successful or a <code>1</code> otherwise and it would be up to the person calling the function to remember to check the value themselves.</p>
 <p><strong>There should be one — and preferably only one — obvious way to do it</strong>. This goes hand-in-hand with the idea of making your code easy to use correctly and hard to use incorrectly. Provide a simple and consistent interface to your users, and don’t display unnecessary complexity.</p>
 <p>To explain the “unless you’re Dutch” comment, the Zen of Python was written by Tim Peters in the early days of Python and this is intended as a friendly jab at the creator of Python <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum">Guido van Rossum</a> who is Dutch.</p>
@@ -347,6 +348,20 @@ Namespaces are one honking great idea -- let's do more of those!</code></pre>
 <p>The one rule that I’ve found to be the most useful when deciding what is “good code” is the question “how easy is this to test?”. If there’s one thing to take away from this course, I’d say it should be this.</p>
 <p>You will find that in the process of thinking about how to make your code more easily testable you’ll make it more modular, composable and with better-defined interfaces. All of which make it cleaner, easier to understand and more maintainable.</p>
 <p>Testing therefore has the double benefit of both giving confidence that your code is correct and making the code better along the way.</p>
+</section>
+<section id="other-principles-worth-considering" class="level3">
+<h3 class="anchored" data-anchor-id="other-principles-worth-considering">Other principles worth considering</h3>
+<p>Below are some further principles that are especially relevant to research software. Several of them are explored in more detail in later sections.</p>
+<p><strong>Keep it simple (KISS) and avoid premature optimisation.</strong> Write the clearest working solution first. Only optimise once profiling shows where the real bottlenecks are.</p>
+<p><strong>You aren’t gonna need it (YAGNI).</strong> Don’t add features or generality “just in case”. Unused code still has to be read, tested and maintained.</p>
+<p><strong>Single responsibility.</strong> Each function or class should do one thing well. Small, focused units are easier to name, test and reuse.</p>
+<p><strong>Use meaningful names.</strong> Good variable and function names (e.g.&nbsp;<code>distance_from_bristol</code> rather than <code>calc</code>) act as documentation and reduce the need for comments.</p>
+<p><strong>Document the “why”, not just the “what”.</strong> Docstrings should explain intent, inputs, outputs and units. Comments should explain decisions that the code cannot express itself. See the <a href="../pages/020-documentation.html">documentation page</a> for more details.</p>
+<p><strong>Make your work reproducible.</strong> Use version control, record dependencies (e.g.&nbsp;<code>requirements.txt</code> or <code>environment.yml</code>), set random seeds, and avoid hard-coded paths so that others (including future you) can rerun your analysis.</p>
+<p><strong>Separate data, configuration and code.</strong> Avoid magic numbers such as the Earth’s radius <code>6373.0</code> buried in a function. Define them as named constants or parameters.</p>
+<p><strong>Fail early and clearly.</strong> Validate inputs (e.g.&nbsp;check that latitude is between -90 and 90) and raise informative errors rather than returning silently wrong results.</p>
+<p><strong>Automate the boring things.</strong> Use linters, formatters and continuous integration to enforce standards and run tests automatically.</p>
+<p><strong>Share and credit.</strong> Choose a licence, add a README and a citation file so that your software can be reused and acknowledged. See the <a href="050-licensing.qmd.qmd">licensing page</a> for more details.</p>
 
 
 </section>

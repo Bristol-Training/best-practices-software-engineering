@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-9582434199d49cc9e91654cdeeb4866b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5cc20322f4ee4d4e5815d321a495115e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-41d5aa5e9d5839bd7c7121d2738e745f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -247,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>testing</li>
 <li>licensing</li>
 </ol>
-<p>and discussing why they’re important and how to integrate them into your code. To discover these concepts we will be exploring then in Python but the ideas behind what we’re doing here apply to all programming languages. You can do documentation and testing in C, C++, R, Fortran, Julia, Go and Rust but each will have their own tools and techniques. Languages which make going these things easy are good languages for doing software development in.</p>
+<p>and discussing why they’re important and how to integrate them into your code. We will explore these concepts in Python, but the ideas apply to all programming languages. You can do documentation and testing in C, C++, R, Fortran, Julia, Go and Rust, but each has its own tools and techniques. Languages which make these things easy are good languages for software development.</p>
 <p>For the purpose of this course we will be using a free tool called JupyterLab which provides you with a local editor and Python terminal in your web browser. Setting up instructions can be found <a href="./pages/001-workspace-setup.html">here</a>.</p>
 <section id="intended-learning-outcomes" class="level4">
 <h4 class="anchored" data-anchor-id="intended-learning-outcomes">Intended learning outcomes</h4>
@@ -263,14 +263,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="how-to-read-this-documentation">How to read this documentation</h3>
 <p>In this documentation, any time that we are seeing a small snippet of Python code, we’ll see it written in a grey box like the following:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello, Python"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If the commands are executed by the machine we will see the output of them below enclosed on a vertical purple line:</p>
-<div id="b74329e4" class="cell" data-execution_count="1">
+<p>If the commands are executed, their output is shown below the code, marked by a vertical purple line:</p>
+<div id="9517ce71" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello, Python!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Hello, Python!</code></pre>
 </div>
 </div>
-<p>By contrast, you will see larger peces of code as scripts with a given name, e.g.&nbsp;<code>script.py</code>, in a code block with darker header:</p>
+<p>By contrast, larger pieces of code are shown as scripts with a given name, e.g.&nbsp;<code>script.py</code>, in a code block with a darker header:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>script.py</strong></pre>
@@ -286,14 +286,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="sourceCode" id="cb5" data-filename="Terminal/Command Prompt"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> script.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Please note that sometimes we will skip showing the execution of scripts on the Terminal/Command Prompt box, but we will assume you to run the script on your.</strong></p>
+<p><strong>Please note that we sometimes skip showing the execution of scripts in the Terminal/Command Prompt box, but you are expected to run the script on your own machine.</strong></p>
 <p>In some cases we will introduce general programming concepts and structures using pseudocode, a high-level, easy-to-read syntax close to natural language. This should not be confused with Python code and cannot be executed on your machine, but it is useful to describe how your code should behave. Here there is an example:</p>
 <pre><code>FOR EACH sample IN my_study
     IF (sample.value &gt; 100)
         DO SOMETHING
     OTHERWISE
         DO SOMETHING ELSE</code></pre>
-<p>There are some exercises along this course, and it is important you try to answer them yourself to understand how Python works. Exercises are shown in blue boxes followed by a yellow box that contains the answer of each exercise. We recommend you to try to answer each exercise yourself before looking at the solution.</p>
+<p>There are some exercises along this course, and it is important that you try to answer them yourself to understand the concepts. Exercises are shown in blue boxes, followed by a yellow box containing the answer. We recommend you attempt each exercise before looking at the solution.</p>
 <div id="exampleN" class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

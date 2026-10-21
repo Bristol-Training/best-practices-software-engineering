@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-9582434199d49cc9e91654cdeeb4866b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5cc20322f4ee4d4e5815d321a495115e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-41d5aa5e9d5839bd7c7121d2738e745f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -217,6 +217,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#documenting-our-own-functions" id="toc-documenting-our-own-functions" class="nav-link active" data-scroll-target="#documenting-our-own-functions">Documenting our own functions</a></li>
   <li><a href="#documenting-modules" id="toc-documenting-modules" class="nav-link" data-scroll-target="#documenting-modules">Documenting modules</a></li>
+  <li><a href="#other-documentation-to-write" id="toc-other-documentation-to-write" class="nav-link" data-scroll-target="#other-documentation-to-write">Other documentation to write</a></li>
   <li><a href="#documentation-driven-development" id="toc-documentation-driven-development" class="nav-link" data-scroll-target="#documentation-driven-development">Documentation-driven-development</a></li>
   <li><a href="#generating-documentation-web-pages" id="toc-generating-documentation-web-pages" class="nav-link" data-scroll-target="#generating-documentation-web-pages">Generating documentation web pages</a></li>
   </ul>
@@ -258,8 +259,8 @@ sep:   string inserted between values, default a space.
 end:   string appended after the last value, default a newline.
 flush: whether to forcibly flush the stream.
 Type:      builtin_function_or_method</code></pre>
-<p>This <em>docstring</em> as it calls it (for documentation string) is a human-written piece of text which is there to help you, the programmer, know how to use the function.</p>
-<p>The <code>?</code> syntax is an <em>iPython</em>-specific thing but you can use the equivalent <code>help</code> function anywhere. If you run:</p>
+<p>This text is called a <em>docstring</em> (short for documentation string). It is a piece of text which is there to help you, the programmer, how to use the function.</p>
+<p>The <code>?</code> syntax is specific to <em>IPython</em>, but the built-in <code>help</code> function works anywhere. Running:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(<span class="bu">print</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>Help on built-in function print in module builtins:
 
@@ -441,6 +442,16 @@ Exercise
 </div>
 </div>
 </section>
+<section id="other-documentation-to-write" class="level3">
+<h3 class="anchored" data-anchor-id="other-documentation-to-write">Other documentation to write</h3>
+<p>Docstrings document code, but a project also needs:</p>
+<ul>
+<li>A <code>README</code> describing what the project does, how to install it and a minimal usage example</li>
+<li>Comments explaining <em>why</em> code does something, not <em>what</em> it does</li>
+<li>A changelog and a licence file</li>
+<li>Tutorials or how-to guides for common tasks</li>
+</ul>
+</section>
 <section id="documentation-driven-development" class="level3">
 <h3 class="anchored" data-anchor-id="documentation-driven-development">Documentation-driven-development</h3>
 <p>It’s always worth writing some documentation for each of your functions but you can go a step further and use a method known as <em>documentation-driven-development</em>. In this model you write the function signature and documentation for the function first, before writing any of the code inside it. This encourages you to think ahead of time about exactly what your function will do, how it will be called by users and what you expect it to return.</p>
@@ -448,6 +459,11 @@ Exercise
 <section id="generating-documentation-web-pages" class="level3">
 <h3 class="anchored" data-anchor-id="generating-documentation-web-pages">Generating documentation web pages</h3>
 <p>As well as viewing your documentation in the Python Console, it’s possible to automatically create web pages to share your documentation. This is not a necessary part of this course but if you are interested later, have a look at the <a href="../pages/appendix_sphinx.html">appendix on the tool Sphinx</a>.</p>
+<p>Other popular tools for building documentation web pages include:</p>
+<ul>
+<li><a href="https://www.mkdocs.org/">MkDocs</a> (with <a href="https://mkdocstrings.github.io/">mkdocstrings</a> to pull in docstrings): Markdown-based and simple to configure.</li>
+<li><a href="https://quarto.org/">Quarto</a> (with <a href="https://machow.github.io/quartodoc/">quartodoc</a>): the tool used to build this course.</li>
+</ul>
 
 
 </section>
