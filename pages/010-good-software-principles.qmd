@@ -18,7 +18,7 @@ The advantage of the DRY principle is that by avoiding duplication **you make ma
 
 This is a principle that was [coined by Scott Meyers in 2004](https://doi.org/10.1109/MS.2004.29). The idea being that if you are writing code which will be used by others (functions, classes etc.) or writing user-interfaces (website, apps etc.) then you should endeavour to make the correct use of your product the "easy path".
 
-As an example, let's look at a function which calculated the distance in kilometres between a given latitude/longitude pair and Bristol:
+As an example, let's look at a function which calculates the distance in kilometres between a given latitude/longitude pair and Bristol:
 
 
 ```python
@@ -112,7 +112,7 @@ distance_from_bristol(lat=lat_london, lon=lon_london)
 
 It is now *harder to use incorrectly*.
 
-There's still the issue that it's very easy to pass in the latitude and longitude in the wrong units. A potential solution to this would be to create a `Point` class which encode within it whether the units are degree or radians and require users of that class to specify then putting in values or removing them.
+There's still the issue that it's very easy to pass in the latitude and longitude in the wrong units. A potential solution to this would be to create a `Point` class which encodes within it whether the units are degrees or radians, and require users of that class to specify the units when putting values in or taking them out.
 
 ## The Zen of Python
 
@@ -152,7 +152,7 @@ Of particular note are:
 
 
 **Readability counts**.
-When writing code, don't just think about how it will be interpreted by the computer, also consider your fellow human. Code will be read many more time than it is written so optimise for understandability.
+When writing code, don't just think about how it will be interpreted by the computer, also consider your fellow human. Code will be read many more times than it is written so optimise for understandability.
     
 **Errors should never pass silently**.
 This is the logic behind Python's use of exceptions. You can't ignore an error unless you explicitly decide to. This is in contrast to common techniques in use in languages like C where a function might return a `0` if it was successful or a `1` otherwise and it would be up to the person calling the function to remember to check the value themselves.
@@ -172,3 +172,38 @@ The one rule that I've found to be the most useful when deciding what is "good c
 You will find that in the process of thinking about how to make your code more easily testable you'll make it more modular, composable and with better-defined interfaces. All of which make it cleaner, easier to understand and more maintainable.
 
 Testing therefore has the double benefit of both giving confidence that your code is correct and making the code better along the way.
+
+## Other principles worth considering
+
+Below are some further principles that are especially relevant to research software. Several of them are explored in more detail in later sections.
+
+**Keep it simple (KISS) and avoid premature optimisation.**
+Write the clearest working solution first. Only optimise once profiling shows where the real bottlenecks are.
+
+**You aren't gonna need it (YAGNI).**
+Don't add features or generality "just in case". Unused code still has to be read, tested and maintained.
+
+**Single responsibility.**
+Each function or class should do one thing well. Small, focused units are easier to name, test and reuse.
+
+**Use meaningful names.**
+Good variable and function names (e.g. `distance_from_bristol` rather than `calc`) act as documentation and reduce the need for comments.
+
+**Document the "why", not just the "what".**
+Docstrings should explain intent, inputs, outputs and units. Comments should explain decisions that the code cannot express itself. See the [documentation page](020-documentation.qmd) for more details.
+
+**Make your work reproducible.**
+Use version control, record dependencies (e.g. `requirements.txt` or `environment.yml`), set random seeds, and avoid hard-coded paths so that others (including future you) can rerun your analysis.
+
+**Separate data, configuration and code.**
+Avoid magic numbers such as the Earth's radius `6373.0` buried in a function. Define them as named constants or parameters.
+
+**Fail early and clearly.**
+Validate inputs (e.g. check that latitude is between -90 and 90) and raise informative errors rather than returning silently wrong results.
+
+**Automate the boring things.**
+Use linters, formatters and continuous integration to enforce standards and run tests automatically.
+
+**Share and credit.**
+Choose a licence, add a README and a citation file so that your software can be reused and acknowledged. See the [licensing page](050-licensing.qmd.qmd) for more details.
+
